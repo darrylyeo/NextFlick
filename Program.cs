@@ -14,12 +14,12 @@ namespace nextflick
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
-        }
-
-        public static IWebHost BuildWebHost(string[] args) =>
+            // BuildWebHost
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .Build();
+                .UseWebRoot("frontend/dist/nextflick")
+                .Build()
+                .Run();
+        }
     }
 }

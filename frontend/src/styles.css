@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900');
+
+:root {
+    --bg: rgb(40, 40, 40);
+    --color: rgba(255, 255, 255, 0.85);
+    
+    font-family: 'Rubik', Roboto, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--color);
+}

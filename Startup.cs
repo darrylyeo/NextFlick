@@ -28,6 +28,7 @@ namespace nextflick
             services.AddMvc();
             
             services.AddTransient<NextFlickMySQL>(_ => new NextFlickMySQL(Configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddTransient<TheMovieDBAPI>(_ => new TheMovieDBAPI(Configuration["TheMovieDB:APIKey"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
