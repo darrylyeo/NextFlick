@@ -1,0 +1,11 @@
+/home/ubuntu/workspace/nextflick-backend/bin/Debug/netcoreapp2.0/nextflick-backend.deps.json
+/home/ubuntu/workspace/nextflick-backend/bin/Debug/netcoreapp2.0/nextflick-backend.runtimeconfig.json
+/home/ubuntu/workspace/nextflick-backend/bin/Debug/netcoreapp2.0/nextflick-backend.runtimeconfig.dev.json
+/home/ubuntu/workspace/nextflick-backend/bin/Debug/netcoreapp2.0/nextflick-backend.dll
+/home/ubuntu/workspace/nextflick-backend/bin/Debug/netcoreapp2.0/nextflick-backend.pdb
+/home/ubuntu/workspace/nextflick-backend/obj/Debug/netcoreapp2.0/nextflick-backend.csprojAssemblyReference.cache
+/home/ubuntu/workspace/nextflick-backend/obj/Debug/netcoreapp2.0/nextflick-backend.csproj.CoreCompileInputs.cache
+/home/ubuntu/workspace/nextflick-backend/obj/Debug/netcoreapp2.0/nextflick-backend.AssemblyInfoInputs.cache
+/home/ubuntu/workspace/nextflick-backend/obj/Debug/netcoreapp2.0/nextflick-backend.AssemblyInfo.cs
+/home/ubuntu/workspace/nextflick-backend/obj/Debug/netcoreapp2.0/nextflick-backend.dll
+/home/ubuntu/workspace/nextflick-backend/obj/Debug/netcoreapp2.0/nextflick-backend.pdb
