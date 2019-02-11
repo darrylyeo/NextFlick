@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP DATABASE `nextflick`;
+DROP DATABASE IF EXISTS `nextflick`;
 CREATE DATABASE `nextflick`;
 
 -- `nextflick`.`Movie`
@@ -9,10 +9,11 @@ CREATE TABLE `nextflick`.`Movie` (
 	`title`             text NOT NULL,
 	-- `releaseDate`       date NOT NULL,
 	-- `posterImage`       blob NOT NULL,
-	-- `tmdbData`          json NOT NULL,
-	-- `createdTimestamp`  timestamp NOT NULL
-		-- DEFAULT CUR	RENT_TIMESTAMP,
-	-- `modifiedTimestamp` timestamp NOT NULL,
+	`tmdbID`            int NOT NULL,
+	`tmdbData`          longtext NOT NULL,
+	`createdTimestamp`  timestamp NOT NULL
+		DEFAULT CURRENT_TIMESTAMP,
+	`modifiedTimestamp` timestamp NOT NULL,
 	
 	PRIMARY KEY (`id`)
 );
@@ -37,23 +38,23 @@ CREATE TABLE `nextflick`.`MovieList` (
 -- `nextflick`.`MovieWatch`
 CREATE TABLE `nextflick`.`MovieWatch` (
 	`id`                int NOT NULL AUTO_INCREMENT,
-	`user`              int NOT NULL,
-	`movie`             int NOT NULL,
+	`userID`            int NOT NULL,
+	`movieID`           int NOT NULL,
 	`rating`            int NOT NULL,
 	`createdTimestamp`  timestamp NOT NULL
 		DEFAULT CURRENT_TIMESTAMP,
 	`modifiedTimestamp` timestamp NOT NULL,
 	
-	PRIMARY KEY (`id`, `user`, `movie`),
+	PRIMARY KEY (`id`, `userID`, `movieID`),
 	
-	KEY `fk_User_MovieWatch` (`user`),
+	KEY `fk_User_MovieWatch` (`userID`),
 	CONSTRAINT `Constraint_fk_User_MovieWatch`
-		FOREIGN KEY `fk_User_MovieWatch` (`user`)
+		FOREIGN KEY `fk_User_MovieWatch` (`userID`)
 		REFERENCES `nextflick`.`User` (`id`),
 	
-	KEY `fk_Movie_MovieWatch` (`movie`),
+	KEY `fk_Movie_MovieWatch` (`movieID`),
 	CONSTRAINT `Constraint_fk_Movie_MovieWatch`
-		FOREIGN KEY `fk_Movie_MovieWatch` (`movie`)
+		FOREIGN KEY `fk_Movie_MovieWatch` (`movieID`)
 		REFERENCES `nextflick`.`Movie` (`id`)
 );
 
@@ -98,33 +99,3 @@ CREATE TABLE `nextflick`.`User` (
 -- `modifiedTimestamp` timestamp NOT NULL
 	-- DEFAULT CURRENT_TIMESTAMP
 	-- ON UPDATE CURRENT_TIMESTAMP,
-
-
-
-
-INSERT INTO `nextflick`.`User`
-	(`id`, `name`)
-VALUES
-	(1, 'Darryl'),
-	(2, 'Justin'),
-	(3, 'Amy');
-
-
-INSERT INTO `nextflick`.`Movie`
-	(`id`, `title`)
-VALUES
-	(1, 'Avatar'),
-	(2, 'Titanic');
-
-
-INSERT INTO `nextflick`.`MovieList`
-	(`id`, `userID`, `title`)
-VALUES
-	(1, 1, 'Favorites'),
-	(2, 1, 'Movies to Watch');
-
-INSERT INTO `nextflick`.`MovieListEntry`
-	(`movieListID`, `movieID`)
-VALUES
-	(1, 1),
-	(2, 2);
