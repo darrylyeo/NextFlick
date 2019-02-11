@@ -1,0 +1,5 @@
+<h3>{{movieList.title}}</h3>
+<div>
+    <nextflick-movie-list-entry *ngFor="let movieListEntry of movieList.entries" [movieListEntry]="movieListEntry"></nextflick-movie-list-entry>
+    <button>Add Movie</button>
+</div>

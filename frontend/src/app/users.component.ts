@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
 import { NextFlickAPIService } from './api.service'
-import { UserComponent } from './users.component'
+import { User } from './model'
 
 @Component({
-	selector: 'nextflick-movielists',
+	selector: 'nextflick-movie-lists',
 	templateUrl: './users.component.html',
 	providers: [ NextFlickAPIService ]
 })
@@ -18,7 +17,7 @@ export class UsersComponent implements OnInit {
 	}
 
 	getData(): void {
-		this.api.getUsers()
+		this.api.user.list()
 			.subscribe(users => {
 				this.users = users as User[];
 			})
@@ -28,7 +27,7 @@ export class UsersComponent implements OnInit {
 	    
 	}
 
-	delete(user: UserComponent): void {
+	delete(user: User): void {
 	    
 	}
 }

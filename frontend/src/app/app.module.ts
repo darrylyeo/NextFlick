@@ -6,19 +6,27 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { MovieComponent } from './movie.component';
-import { MovieListComponent } from './movielist.component';
-import { MovieListsComponent } from './movielists.component';
+import { MovieListEntryComponent } from './movie-list-entry.component';
+import { MovieListComponent } from './movie-list.component';
+import { MovieListsComponent } from './movie-lists.component';
+import { MovieWatchComponent } from './movie-watch.component';
 import { UserComponent } from './user.component';
 import { UsersComponent } from './users.component';
+
+import { TmdbImagePipe } from './tmdb-image.pipe'
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		MovieComponent,
+		MovieListEntryComponent,
 		MovieListComponent,
 		MovieListsComponent,
+		MovieWatchComponent,
 		UserComponent,
-		UsersComponent
+		UsersComponent,
+		
+		TmdbImagePipe
 	],
 	imports: [
 		BrowserModule,

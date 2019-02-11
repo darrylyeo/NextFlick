@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Movie } from './model'
 
 @Component({
 	selector: 'nextflick-movie',
 	templateUrl: './movie.component.html'
 })
 export class MovieComponent {
-	id: int;
-	title: string;
-	// tmdbData: object;
-	createdTimestamp: Date;
-	modifiedTimestamp: Date;
+	@Input() movie: Movie
 }

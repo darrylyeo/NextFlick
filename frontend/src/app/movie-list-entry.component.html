@@ -1,0 +1,7 @@
+<ng-container *ngIf="movieListEntry.movie">
+    <nextflick-movie [movie]="movieListEntry.movie"></nextflick-movie>
+    <nextflick-movie-watch [movie]="movieListEntry.movie"></nextflick-movie-watch>
+</ng-container>
+<ng-container *ngIf="!movieListEntry.movie">
+    Loading...
+</ng-container>

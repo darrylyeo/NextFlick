@@ -1,1 +1,2 @@
-<h4>{{title}}</h4>
+<h4>{{movie.title}}</h4>
+<img *ngIf="movie.tmdbData" [src]="movie.tmdbData.poster | tmdbImage">
