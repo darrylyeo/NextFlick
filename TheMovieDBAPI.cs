@@ -33,10 +33,10 @@ namespace nextflick
 			}
 		}
 		
-		public object Search(string query) =>
+		public object SearchMovie(string query) =>
 			Get($"search/movie?query={query}");
 
-		public object Get(int id) =>
+		public object GetMovie(int id) =>
 			Get($"movie/{id}");
 
 		public void Dispose()

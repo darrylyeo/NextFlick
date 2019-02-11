@@ -21,11 +21,6 @@ namespace nextflick.Controllers
 			this.Database = Database;
 		}
 		
-		// GET api/movielist
-		// [HttpGet]
-		// public object Get() =>
-		// 	Database.Query("SELECT * FROM MovieList");
-		
 		// GET api/movielist?user={user}
 		[HttpGet]
 		public object Get(int user) => user > 0
@@ -66,7 +61,7 @@ namespace nextflick.Controllers
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{
-			Database.Query("DELETE FROM MovieList WHERE id = " + id);
+			Database.Query($"DELETE FROM MovieList WHERE id = {id}");
 		}
 	}
 }
