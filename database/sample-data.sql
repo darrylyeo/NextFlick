@@ -48,3 +48,8 @@ VALUES
 	(5, 4),
 	(5, 5),
 	(5, 6);
+
+INSERT INTO `nextflick`.`MovieWatch`
+	(`userID`, `movieID`, `rating`)
+VALUES
+	(1, 1, 9);
