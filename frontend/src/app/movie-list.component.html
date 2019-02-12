@@ -1,5 +1,10 @@
-<h3>{{movieList.title}}</h3>
+<header>
+    <h3>{{movieList.title}}</h3>
+    <div>
+        <button *ngFor="let action of actions" (click)="action.callback($event)">{{action.name}}</button>
+    </div>
+</header>
 <div>
-    <nextflick-movie-list-entry *ngFor="let movieListEntry of movieList.entries" [movieListEntry]="movieListEntry"></nextflick-movie-list-entry>
-    <button>Add Movie</button>
+    <nextflick-movie-list-entry *ngFor="let movieListEntry of movieList.entries" [movieListEntry]="movieListEntry"
+        tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)" (click)="toggleSelect(movieListEntry)"></nextflick-movie-list-entry>
 </div>

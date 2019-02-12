@@ -1,0 +1,10 @@
+:host {
+	display: flex;
+	flex-direction: column;
+}
+:host > div {
+	transition: transform 0.3s;
+}
+:host > div:empty {
+	transform: scale(0);
+}

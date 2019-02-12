@@ -1,2 +1,5 @@
-<h4>{{movie.title}}</h4>
-<img *ngIf="movie.tmdbData" [src]="movie.tmdbData.poster | tmdbImage">
+<div class="poster">
+    <img *ngIf="movie && movie.tmdbData" [src]="movie.tmdbData.poster | tmdbImage">
+</div>
+<h4>{{movie && movie.title || 'Loading...'}}</h4>
+<nextflick-movie-watch *ngFor="let movieWatch of movieWatches" [movieWatch]="movieWatch"></nextflick-movie-watch>

@@ -1,0 +1,15 @@
+nextflick-movie {
+	transition: 0.3s;
+}
+:host nextflick-movie .poster {
+	transform: translateZ(200px);
+}
+:host:hover nextflick-movie .poster, :host:focus nextflick-movie .poster {
+	box-shadow: 0 2px 1em rgba(255, 255, 255, 0.3);
+	border: 2px solid var(--primary-color);
+	transform: translateZ(200px);
+}
+:host.is-selected nextflick-movie {
+	filter: brightness(120%);
+	transform: translate3d(0, -0.25em, 200px);
+}

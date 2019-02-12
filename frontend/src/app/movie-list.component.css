@@ -1,3 +1,27 @@
-movie-list > div {
-    overflow-x: auto;
+:host {
+	display: flex;
+	flex-direction: column;
+	padding: 1em;
+	
+	perspective: 1000px;
+	transform-style: preserve-3d;
+}
+/*:host > * + * {
+	margin-top: 0.75em;
+}*/
+
+:host > header, :host > header > div {
+	display: flex;
+	align-items: center;
+}
+
+:host > div {
+	display: flex;
+	overflow-x: auto;
+	
+	margin: 0 -1em;
+	padding: 1em;
+}
+:host > div > * + * {
+	margin-left: 0.75em;
 }

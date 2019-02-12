@@ -1,33 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 import { NextFlickAPIService } from './api.service'
 import { User } from './model'
 
 @Component({
-	selector: 'nextflick-movie-lists',
+	selector: 'nextflick-users',
 	templateUrl: './users.component.html',
 	providers: [ NextFlickAPIService ]
 })
 export class UsersComponent implements OnInit {
-	users: User[];
+	users: User[]
 	
 	constructor(private api: NextFlickAPIService) { }
 
 	ngOnInit() {
-		this.getData();
+		this.getData()
 	}
 
-	getData(): void {
-		this.api.user.list()
-			.subscribe(users => {
-				this.users = users as User[];
-			})
+	async getData() {
+		this.users = await this.api.user.list()
 	}
 
-	add(name: string): void {
+	create(name: string) {
 	    
 	}
 
-	delete(user: User): void {
+	delete(user: User) {
 	    
 	}
 }

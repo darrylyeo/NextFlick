@@ -1,3 +1,3 @@
-<ng-container *ngIf="movieWatch.user">
+<ng-container *ngIf="movieWatch && movieWatch.user">
     {{movieWatch.user}} watched this<ng-container *ngIf="movieWatch.rating"> and rated it {{movieWatch.rating}}</ng-container>
 </ng-container>
