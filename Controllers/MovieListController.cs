@@ -21,17 +21,19 @@ namespace nextflick.Controllers
 			this.Database = Database;
 		}
 		
+		// GET api/movielist
 		// GET api/movielist?user={user}
 		[HttpGet]
-		public object Get(int user) => user > 0
-			? Database.Query($"SELECT * FROM MovieList WHERE userID = {user}")
-			: Database.Query($"SELECT * FROM MovieList");
+		public object List(int user) => user == 0
+			? Database.Query($"SELECT * FROM MovieList")
+			: Database.Query($"SELECT * FROM MovieList WHERE userID = {user}");
 		
+		// GET api/movielist/{id}
 		// GET api/movielist/{id}?user={user}
 		[HttpGet("{id}")]
-		public object Get(int id, int user) => user > 0
-			? Database.Query($"SELECT * FROM MovieList WHERE id = {id}, userID = {user}")
-			: Database.Query($"SELECT * FROM MovieList WHERE id = {id}");
+		public object Get(int id, int user = 0) => user == 0
+			? Database.Query($"SELECT * FROM MovieList WHERE id = {id}").FirstOrDefault()
+			: Database.Query($"SELECT * FROM MovieList WHERE id = {id}, userID = {user}").FirstOrDefault();
 			
 			// Database.Query(
 			// 	"SELECT * FROM MovieList ml WHERE userID = " + userID +
@@ -43,21 +45,23 @@ namespace nextflick.Controllers
 			//     {"userID", userID}
 			// });
 
-		// POST api/movielist
+		// POST api/movielist { title, userID }
 		[HttpPost]
-		public void Post([FromBody]string title, [FromBody]int userID)
-		{
+		public void Post([FromBody]string title, [FromBody]int userID) =>
 			Database.Query($"INSERT INTO MovieList (title, userID) VALUES ({title}, {userID})");
-		}
+		
+		// public HttpResponseMessage Post([FromBody]string title, [FromBody]int userID) =>
+		// 	Database.Query($"INSERT INTO MovieList (title, userID) VALUES ({title}, {userID})");
+		// 	Request.CreateResponse<Contact>(System.Net.HttpStatusCode.Created, contact)
 
-		// PUT api/movielist/5
+		// PUT api/movielist/{id} { title, userID }
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody]string title, [FromBody]int userID)
+		public void Update(int id, [FromBody]string title, [FromBody]int userID)
 		{
 			Database.Query($"UPDATE MovieList SET title = {title}, userID = {userID} WHERE id = {id}");
 		}
 
-		// DELETE api/movielist/5
+		// DELETE api/movielist/{id}
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{

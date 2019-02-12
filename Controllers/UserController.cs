@@ -22,38 +22,33 @@ namespace nextflick.Controllers
 		
 		// GET api/user
 		[HttpGet]
-		public object Get()
-		{
-			return Database.Query("SELECT * FROM User");
-		}
+		public object List() =>
+			Database.Query("SELECT * FROM User");
 		
-		// GET api/user/{userID}
-		[HttpGet("{userID}")]
-		public object Get(int userID)
-		{
-			return Database.Query("SELECT * FROM User WHERE userID = " + userID);
-			// return Database.Query("SELECT * FROM User WHERE userID = @userID;", new Dictionary<string, object>(){
-			//     {"userID", userID}
-			// });
-		}
+		// GET api/user/{id}
+		[HttpGet("{id}")]
+		public object Get(int id) =>
+			Database.Query("SELECT * FROM User WHERE userID = " + id).FirstOrDefault();
 
-		// POST api/user
+		// POST api/user { name }
 		[HttpPost]
-		public void Post([FromBody]string value)
+		public void Post([FromBody]string name)
 		{
-			//return Database.Query("INSERT INTO User WHERE userID = " + userID);
+			Database.Query($"INSERT INTO User (name) VALUES ({name})");
 		}
 
-		// PUT api/user/5
+		// PUT api/user/{id} { title, userID }
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody]string value)
+		public void Put(int id, [FromBody]string name)
 		{
+			Database.Query($"UPDATE User SET title = {name} WHERE id = {id}");
 		}
 
-		// DELETE api/user/5
+		// DELETE api/user/{id}
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{
+			Database.Query($"DELETE FROM User WHERE id = {id}");
 		}
 	}
 }

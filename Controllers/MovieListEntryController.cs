@@ -21,19 +21,24 @@ namespace nextflick.Controllers
 			this.Database = Database;
 		}
 		
+		// GET api/movielistentry?movieListID={movieListID}
+		[HttpGet()]
+		public object List(int movieListID) =>
+			Database.Query($"SELECT * FROM MovieListEntry WHERE movieListID = {movieListID}");
+		
 		// GET api/movielistentry/{id}
 		[HttpGet("{id}")]
 		public object Get(int id) =>
-			Database.Query($"SELECT * FROM MovieListEntry WHERE id = {id}");
+			Database.Query($"SELECT * FROM MovieListEntry WHERE id = {id}").FirstOrDefault();
 
-		// POST api/movielistentry
+		// POST api/movielistentry { movieListID, userID }
 		[HttpPost]
 		public void Post([FromBody]int movieListID, [FromBody]int userID)
 		{
 			Database.Query($"INSERT INTO MovieListEntry (movieListID, userID) VALUES ({movieListID}, {userID})");
 		}
 
-		// DELETE api/movielistentry/5
+		// DELETE api/movielistentry/{id}
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{

@@ -18,10 +18,10 @@ namespace nextflick.Controllers
 		
 		// GET api/moviedb?search
 		[HttpGet]
-		public object Get(string search) =>
+		public object Search(string search) =>
 			Api.SearchMovie(search);
 		
-		// GET api/moviedb/id
+		// GET api/moviedb/{id}
 		[HttpGet("{id}")]
 		public object Get(int id) =>
 			Api.GetMovie(id);

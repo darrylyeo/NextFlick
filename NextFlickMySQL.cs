@@ -27,8 +27,10 @@ namespace nextflick
 			}
 		}
 		
-		public object Query(string sql, Dictionary<string, object> queryParams = null)
+		public List<Dictionary<string, object>> Query(string sql, Dictionary<string, object> queryParams = null)
 		{
+			var items = new List<Dictionary<string, object>>();
+			
 			Console.WriteLine(sql);
 			Console.WriteLine(queryParams);
 			try
@@ -52,7 +54,6 @@ namespace nextflick
 				// command.ExecuteNonQuery();
 	
 				// Convert to serializable dictionaries
-				var items = new List<Dictionary<string, object>>();
 				var fields = new List<string>();
 				for (var i = 0; i < reader.FieldCount; i++) 
 					fields.Add(reader.GetName(i));
@@ -68,7 +69,8 @@ namespace nextflick
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.ToString());
-				return ex.ToString();
+				// return ex.ToString();
+				return items;
 			}
 		}
 

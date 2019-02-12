@@ -9,6 +9,9 @@ using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
+// using System.Runtime.Serialization;
+// using System.Json;
+
 namespace nextflick.Controllers
 {
 	[Route("api/[controller]")]
@@ -26,7 +29,17 @@ namespace nextflick.Controllers
 		// GET api/movie/{id}
 		[HttpGet("{id}")]
 		public object Get(int id) =>
-			Database.Query($"SELECT * FROM Movie WHERE id = {id}");
+			Database.Query($"SELECT * FROM Movie WHERE id = {id}").FirstOrDefault();
+		
+		// public object Get(int id)
+		// {
+		// 	var movie = Database.Query($"SELECT * FROM Movie WHERE id = {id}").FirstOrDefault();
+		// 	// Console.WriteLine((string)movie["tmdbData"]);
+		// 	JsonObject value = JsonValue.Parse((string)movie["tmdbData"]) as JsonObject;
+		// 	// Console.WriteLine((string)value);
+		// 	return value;
+		// 	// return movie;
+		// }
 
 		// POST api/movie
 		[HttpPost]
