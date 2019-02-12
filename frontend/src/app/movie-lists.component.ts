@@ -10,6 +10,7 @@ import { MovieList } from './model'
 })
 export class MovieListsComponent implements OnInit {
 	movieLists: MovieList[]
+	newMovieList: MovieList
 	
 	constructor(private api: NextFlickAPIService) { }
 
@@ -25,23 +26,27 @@ export class MovieListsComponent implements OnInit {
 		// 		this.movieLists = movieLists as MovieList[]
 		// 	})
 	}
+	
+	get actions() {
+		return [
+			{
+				name: 'New List',
+				callback: () => {
+					const newMovieList = this.newMovieList = new MovieList()
+				}
+			}
+		]
+	}
 
 	async create(movieList: MovieList) {
 		await this.api.movieList.create(movieList)
 		this.movieLists.push(movieList)
-		
-		// this.api.movieList.create(movieList)
-		// 	.then(movieList =>
-		// 		this.movieLists.push(movieList as MovieList)
-		// 	)
+		console.log(`Added movie list "${movieList.title}"`, movieList)
 	}
 
-	async delete(movieList: MovieList) {
+	async removeList(movieList: MovieList) {
 		await this.api.movieList.delete(movieList)
 		this.movieLists.splice(this.movieLists.indexOf(movieList), 1)
-		// this.api.movieList.delete({id: movieList.id})
-		// 	.then(movieList =>
-		// 		this.movieLists.splice(this.movieLists.indexOf(movieList as MovieList), 1)
-		// 	)
+		console.log(`Removed movie list "${movieList.title}"`, movieList)
 	}
 }

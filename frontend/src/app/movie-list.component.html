@@ -1,10 +1,15 @@
 <header>
-    <h3>{{movieList.title}}</h3>
-    <div>
-        <button *ngFor="let action of actions" (click)="action.callback($event)">{{action.name}}</button>
+    <h3 (click)="edit()">
+        <ng-container *ngIf="!isEditing">{{movieList.title}}</ng-container>
+        <ng-container *ngIf="isEditing">
+            <input type="text" #titleInput [value]="movieList.title" placeholder="My Awesome Movie List">
+        </ng-container>
+    </h3>
+    <div class="actions">
+        <button *ngFor="let action of actions" (click)="action.callback($event)" (keyup)="$event.keyCode == 13 && action.callback($event)">{{action.name}}</button>
     </div>
 </header>
-<div>
+<div class="list">
     <nextflick-movie-list-entry *ngFor="let movieListEntry of movieList.entries" [movieListEntry]="movieListEntry"
         tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)" (click)="toggleSelect(movieListEntry)"></nextflick-movie-list-entry>
 </div>

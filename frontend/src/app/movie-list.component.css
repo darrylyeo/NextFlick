@@ -4,24 +4,27 @@
 	padding: 1em;
 	
 	perspective: 1000px;
-	transform-style: preserve-3d;
+	/*transform-style: preserve-3d;*/
 }
 /*:host > * + * {
 	margin-top: 0.75em;
 }*/
 
-:host > header, :host > header > div {
+header, .actions {
 	display: flex;
 	align-items: center;
 }
+.actions {
+	margin-left: auto;
+}
 
-:host > div {
+.list {
 	display: flex;
 	overflow-x: auto;
 	
 	margin: 0 -1em;
 	padding: 1em;
 }
-:host > div > * + * {
+.list > * + * {
 	margin-left: 0.75em;
 }

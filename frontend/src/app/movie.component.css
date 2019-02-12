@@ -18,6 +18,10 @@
     overflow: hidden;
     min-height: var(--poster-height);
 }
+:host, .poster {
+	position: relative;
+	transition: transform 0.3s cubic-bezier(0, 1, 0.15, 2), 0.3s;
+}
 
 @media (min-width: 1200px) {
     :host {

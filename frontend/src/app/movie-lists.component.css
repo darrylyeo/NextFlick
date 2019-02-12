@@ -8,3 +8,19 @@
 :host > div:empty {
 	transform: scale(0);
 }
+footer {
+	background-color: rgba(28, 28, 28, 0.95);
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+	
+	position: sticky;
+	bottom: 0;
+	padding: 1em;
+}
+footer div {
+	display: flex;
+}
+footer .actions {
+	display: flex;
+	margin-left: auto;
+}

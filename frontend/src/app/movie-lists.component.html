@@ -1,1 +1,12 @@
-<nextflick-movie-list *ngFor="let movieList of movieLists" [movieList]="movieList"></nextflick-movie-list>
+<nextflick-movie-list *ngFor="let movieList of movieLists" [movieList]="movieList" (removeList)="removeList(movieList)"></nextflick-movie-list>
+<nextflick-movie-list *ngIf="newMovieList" [movieList]="newMovieList"></nextflick-movie-list>
+<!--<nextflick-movie-search></nextflick-movie-search>-->
+<footer>
+    <div>
+        <input type="search" #searchInput placeholder="Search Movies...">
+        <div class="actions">
+            <button *ngFor="let action of actions" (click)="action.callback($event)" (keyup.enter)="action.callback($event)">{{action.name}}</button>
+        </div>
+    </div>
+    <!--<nextflick-movie-list *ngIf="searchedMovies" [movieList]="newMovieList"></nextflick-movie-list>-->
+</footer>

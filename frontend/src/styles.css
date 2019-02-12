@@ -13,11 +13,18 @@
 	box-sizing: border-box;
 	margin: 0;
 	transform-style: inherit;
+	transition: box-shadow 0.3s, text-shadow 0.3s, filter 0.3s;
 }
 
 body {
 	background-color: var(--bg-color);
 	color: var(--text-color);
+}
+
+
+:focus {
+	outline: none;
+	filter: drop-shadow(0 1px 2px var(--primary-color));
 }
 
 
@@ -39,8 +46,16 @@ button {
 	text-transform: uppercase;
 	font-weight: bold;
 	font-size: 0.9em;
+	
+	transition: 0.3s;
 }
-.actions button {
+button:hover {
+	filter: brightness(110%);
+}
+button:focus {
+	filter: brightness(110%) drop-shadow(0 1px 4px var(--primary-color));
+}
+/*.actions button {
 	background: none;
 	overflow: hidden;
 	position: relative;
@@ -60,4 +75,47 @@ button {
 }
 .actions button:hover:before {
 	background-color: rgba(255, 255, 255, 1);
+}*/
+
+input[type=text], input[type=search] {
+	-webkit-appearance: none;
+	background-color: transparent;
+	border: none;
+	color: inherit;
+	font: inherit;
+}
+
+
+
+
+
+nextflick-movie-list-entry:focus {
+	outline: none;
+}
+nextflick-movie-list-entry:hover nextflick-movie .poster, nextflick-movie-list-entry:focus nextflick-movie .poster {
+	box-shadow: 0 2px 1em rgba(0, 0, 0, 0.3);
+	transform: scale(1.02);
+}
+/*nextflick-movie-list-entry:focus nextflick-movie .poster {
+	border: 2px solid var(--primary-color);
+}*/
+
+
+nextflick-movie-list-entry.is-selected nextflick-movie {
+	filter: brightness(120%);
+	transform: scale(1.02) translate3d(0, -0.3em, 5px);
+}
+nextflick-movie-list-entry.is-selected nextflick-movie .poster:after {
+	content: '✔︎︎';
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.2em;
+	border-radius: 50%;
+	width: 1.5em;
+	height: 1.5em;
+	position: absolute;
+	right: 0.5em;
+	bottom: 0.5em;
 }
