@@ -28,20 +28,20 @@ namespace nextflick.Controllers
 		// GET api/user/{id}
 		[HttpGet("{id}")]
 		public object Get(int id) =>
-			Database.Query("SELECT * FROM User WHERE userID = " + id).FirstOrDefault();
+			Database.Query("SELECT * FROM User WHERE id = " + id).FirstOrDefault();
 
 		// POST api/user { name }
 		[HttpPost]
 		public void Post([FromBody]string name)
 		{
-			Database.Query($"INSERT INTO User (name) VALUES ({name})");
+			Database.Query($"INSERT INTO User (name) VALUES ('{name}')");
 		}
 
 		// PUT api/user/{id} { title, userID }
 		[HttpPut("{id}")]
 		public void Put(int id, [FromBody]string name)
 		{
-			Database.Query($"UPDATE User SET title = {name} WHERE id = {id}");
+			Database.Query($"UPDATE User SET name = '{name}' WHERE id = {id}");
 		}
 
 		// DELETE api/user/{id}

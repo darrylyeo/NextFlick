@@ -47,7 +47,7 @@ namespace nextflick.Controllers
 		{
 			var tmdbData = Api.GetMovie(tmdbID);
 			var title = tmdbData.GetType();//tmdbData["title"];
-			Database.Query($"INSERT INTO Movie (title, tmdbID, tmdbData) VALUES ({title}, {tmdbID}, {tmdbData})");
+			Database.Query($"INSERT INTO Movie (title, tmdbID, tmdbData) VALUES ('{title}', {tmdbID}, '{tmdbData}')");
 		}
 	}
 }

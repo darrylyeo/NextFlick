@@ -16,7 +16,7 @@ namespace nextflick.Controllers
 			this.Api = Api;
 		}
 		
-		// GET api/moviedb?search
+		// GET api/moviedb?search={search}
 		[HttpGet]
 		public object Search(string search) =>
 			Api.SearchMovie(search);

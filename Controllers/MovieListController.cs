@@ -48,17 +48,17 @@ namespace nextflick.Controllers
 		// POST api/movielist { title, userID }
 		[HttpPost]
 		public void Post([FromBody]string title, [FromBody]int userID) =>
-			Database.Query($"INSERT INTO MovieList (title, userID) VALUES ({title}, {userID})");
+			Database.Query($"INSERT INTO MovieList (title, userID) VALUES ('{title}', {userID})");
 		
 		// public HttpResponseMessage Post([FromBody]string title, [FromBody]int userID) =>
 		// 	Database.Query($"INSERT INTO MovieList (title, userID) VALUES ({title}, {userID})");
 		// 	Request.CreateResponse<Contact>(System.Net.HttpStatusCode.Created, contact)
 
-		// PUT api/movielist/{id} { title, userID }
+		// PUT api/movielist/{id} { title }
 		[HttpPut("{id}")]
-		public void Update(int id, [FromBody]string title, [FromBody]int userID)
+		public void Update(int id, [FromBody]string title)
 		{
-			Database.Query($"UPDATE MovieList SET title = {title}, userID = {userID} WHERE id = {id}");
+			Database.Query($"UPDATE MovieList SET title = '{title}' WHERE id = {id}");
 		}
 
 		// DELETE api/movielist/{id}
