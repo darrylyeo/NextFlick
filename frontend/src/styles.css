@@ -28,6 +28,12 @@ body {
 }
 
 
+img {
+	display: flex;
+	max-width: 100%;
+}
+
+
 button {
 	-webkit-appearance: none;
 	background-color: var(--primary-color);
@@ -45,7 +51,7 @@ button {
 	line-height: 1;
 	text-transform: uppercase;
 	font-weight: bold;
-	font-size: 0.9em;
+	font-size: 0.86em;
 	
 	transition: 0.3s;
 }
@@ -54,6 +60,9 @@ button:hover {
 }
 button:focus {
 	filter: brightness(110%) drop-shadow(0 1px 4px var(--primary-color));
+}
+.actions button + button {
+	margin-left: 0.25rem;
 }
 /*.actions button {
 	background: none;
@@ -79,10 +88,24 @@ button:focus {
 
 input[type=text], input[type=search] {
 	-webkit-appearance: none;
-	background-color: transparent;
+	background-color: rgba(255, 255, 255, 0.15);
+	background-color: rgba(80, 80, 80, 0.9);
+	border-radius: 4px;
 	border: none;
+	padding: 0.25rem 0.5rem;
 	color: inherit;
 	font: inherit;
+	flex: 1;
+	max-width: 100%;
+}
+h3 input[type=text], h3 input[type=search] {
+	margin: -0.25rem -0.5rem;
+	width: 100%;
+}
+
+
+h4 {
+	font-weight: normal;
 }
 
 
@@ -105,9 +128,13 @@ nextflick-movie-list-entry.is-selected nextflick-movie {
 	filter: brightness(120%);
 	transform: scale(1.02) translate3d(0, -0.3em, 5px);
 }
+nextflick-movie-list-entry.is-selected nextflick-movie .poster {
+	background-color: var(--primary-color);
+}
 nextflick-movie-list-entry.is-selected nextflick-movie .poster:after {
 	content: '✔︎︎';
 	background-color: rgba(0, 0, 0, 0.5);
+	background-color: var(--primary-color);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -118,4 +145,7 @@ nextflick-movie-list-entry.is-selected nextflick-movie .poster:after {
 	position: absolute;
 	right: 0.5em;
 	bottom: 0.5em;
+}
+nextflick-movie-list-entry.is-selected nextflick-movie .poster img {
+	opacity: 0.9;
 }

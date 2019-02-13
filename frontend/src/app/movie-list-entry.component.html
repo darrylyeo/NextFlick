@@ -1,7 +1,1 @@
-<nextflick-movie [movie]="movieListEntry.movie" [movieID]="movieListEntry.movieID"></nextflick-movie>
-<!--<ng-container *ngIf="movieListEntry.movie">
-    <nextflick-movie [movie]="movieListEntry.movie"></nextflick-movie>
-</ng-container>
-<ng-container *ngIf="!movieListEntry.movie">
-    Loading...
-</ng-container>-->
+<nextflick-movie [movie]="movieListEntry.movie" [movieID]="movieListEntry.movieID" #movie (click)="movie.showMovieDetail.emit()"></nextflick-movie>

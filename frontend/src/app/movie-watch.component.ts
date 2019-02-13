@@ -4,7 +4,8 @@ import { MovieWatch } from './model'
 
 @Component({
 	selector: 'nextflick-movie-watch',
-	templateUrl: './movie-watch.component.html'
+	templateUrl: './movie-watch.component.html',
+	styleUrls: ['./movie-watch.component.css']
 })
 export class MovieWatchComponent {
 	@Input() movieWatch: MovieWatch

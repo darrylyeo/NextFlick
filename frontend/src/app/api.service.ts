@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Movie, MovieList, MovieListEntry, MovieWatch, User } from './model'
+import { Movie, TMDBMovie, MovieList, MovieListEntry, MovieWatch, User } from './model'
 
 const headers = new HttpHeaders({
 	'Content-Type': 'application/json'
@@ -86,7 +86,7 @@ export class NextFlickAPIService {
 				if(tmdbData){
 					if(typeof tmdbData === 'string') tmdbData = JSON.parse(tmdbData)
 				}else if(tmdbID){
-					tmdbData = await this.http.get<Movie>(`/api/moviedb/${tmdbID}`).toPromise()
+					tmdbData = await this.http.get<TMDBMovie>(`/api/moviedb/${tmdbID}`).toPromise()
 				}
 				movie.tmdbData = tmdbData
 				return movie
@@ -101,7 +101,7 @@ export class NextFlickAPIService {
 			this.http.get<User[]>(`/api/user`).toPromise(),
 		
 		get: ({id}) =>
-			this.http.get<User>(`/api/user/{id}`).toPromise(),
+			this.http.get<User>(`/api/user/${id}`).toPromise(),
 			
 		create: ({name}) =>
 			this.http.post(`/api/user`, {name}, {headers}).toPromise(),
@@ -111,5 +111,13 @@ export class NextFlickAPIService {
 		
 		delete: ({id}) =>
 			this.http.delete(`/api/user/${id}`, {headers}).toPromise(),
+	}
+	
+	movieDB = {
+		search: (searchQuery: string) =>
+			this.http.get(`/api/moviedb?search=${searchQuery}`).toPromise(),
+		
+		get: ({tmdbID}) =>
+			this.http.get<TMDBMovie>(`/api/moviedb/${tmdbID}`).toPromise(),
 	}
 }

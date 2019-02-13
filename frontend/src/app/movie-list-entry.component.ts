@@ -17,8 +17,8 @@ export class MovieListEntryComponent {
 	}
 
 	async getData() {
-		this.movieListEntry.movie = await this.api.movie.get({id: this.movieListEntry.movieID})
-		// console.log(this, this.movieListEntry.movie)
+		if(this.movieListEntry.movieID)
+			this.movieListEntry.movie = await this.api.movie.get({id: this.movieListEntry.movieID})
 	}
 	
 	isSelected: boolean = false

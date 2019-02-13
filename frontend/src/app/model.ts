@@ -1,10 +1,38 @@
 export class Movie {
-	id: number
+	id?: number
 	title: string
 	tmdbID: number
-	tmdbData: object
+	tmdbData: TMDBMovie
 	createdTimestamp: Date
 	modifiedTimestamp: Date
+	
+	static fromTMDB(tmdbData: TMDBMovie): Movie {
+		return {
+			title: tmdbData.title,
+			tmdbID: tmdbData.id,
+			tmdbData
+		} as Movie
+	}
+}
+
+export class TMDBMovie {
+	vote_count: number
+	id: number
+	video: boolean
+	vote_average: number
+	title: string
+	popularity: number
+	poster_path: string
+	original_language: string
+	original_title: string
+	genre_ids: object
+	backdrop_path: string
+	adult: boolean
+	overview: string
+	release_date: string
+	get release_year(){
+		return this.release_date.match(/\d+/)[1]
+	}
 }
 
 export class MovieList {

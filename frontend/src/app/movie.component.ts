@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 import { NextFlickAPIService } from './api.service'
 import { Movie, MovieWatch } from './model'
 
@@ -12,6 +12,8 @@ export class MovieComponent implements OnInit {
 	@Input() movieID: number
 	movieWatches: MovieWatch[]
 	
+	@Output() showMovieDetail = new EventEmitter()
+	
 	constructor(private api: NextFlickAPIService) { }
 
 	ngOnInit() {
@@ -19,6 +21,8 @@ export class MovieComponent implements OnInit {
 	}
 
 	async getData() {
-		this.movieWatches = await this.api.movieWatch.list({userID: 1, movieID: this.movieID || this.movie.id})
+		const movieID = this.movie && this.movie.id || this.movieID
+		if(movieID)
+			this.movieWatches = await this.api.movieWatch.list({userID: 1, movieID})
 	}
 }

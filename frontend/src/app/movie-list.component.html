@@ -1,15 +1,17 @@
 <header>
-    <h3 (click)="edit()">
+    <h3 (click)="startEdit()">
         <ng-container *ngIf="!isEditing">{{movieList.title}}</ng-container>
-        <ng-container *ngIf="isEditing">
-            <input type="text" #titleInput [value]="movieList.title" placeholder="My Awesome Movie List">
-        </ng-container>
+        <input type="text" #titleInput [hidden]="!isEditing" [value]="movieList.title" placeholder="My Awesome Movie List">
     </h3>
     <div class="actions">
-        <button *ngFor="let action of actions" (click)="action.callback($event)" (keyup)="$event.keyCode == 13 && action.callback($event)">{{action.name}}</button>
+        <button *ngFor="let action of actions" (click)="action.callback($event)" (keyup.enter)="action.callback($event)">{{action.name}}</button>
     </div>
 </header>
-<div class="list">
+<div class="list"
+    cdkDropList [cdkDropListOrientation]="'horizontal'" [cdkDropListData]="movieList.entries" (cdkDropListDropped)="drop($event)">
     <nextflick-movie-list-entry *ngFor="let movieListEntry of movieList.entries" [movieListEntry]="movieListEntry"
-        tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)" (click)="toggleSelect(movieListEntry)"></nextflick-movie-list-entry>
+        tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)" (click)="toggleSelectEntry(movieListEntry)"
+        cdkDrag
+        ></nextflick-movie-list-entry>
+    <div class="placeholder" *ngIf="movieList.entries && movieList.entries.length === 0">Looks like this list is empty. Search for a movie and drag it here!</div>
 </div>

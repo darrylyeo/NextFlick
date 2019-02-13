@@ -20,11 +20,6 @@ export class MovieListsComponent implements OnInit {
 
 	async getData() {
 		this.movieLists = await this.api.movieList.list()
-		// this.api.movieList.list()
-		// 	.then(movieLists =>{
-		// 		console.log(movieLists)
-		// 		this.movieLists = movieLists as MovieList[]
-		// 	})
 	}
 	
 	get actions() {

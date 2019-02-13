@@ -2,6 +2,8 @@ import { Component, Input, OnInit, ViewChild, ElementRef, Output, EventEmitter }
 import { NextFlickAPIService } from './api.service'
 import { MovieList, MovieListEntry } from './model'
 
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
+
 @Component({
 	selector: 'nextflick-movie-list',
 	templateUrl: './movie-list.component.html',
@@ -24,7 +26,7 @@ export class MovieListComponent implements OnInit {
 	get actions() {
 		return (this.isEditing ? [
 			this.canSaveEdit && {
-				name: 'Save',
+				name: 'Save Title',
 				callback: () => this.saveEdit()
 			},
 			{
@@ -62,17 +64,43 @@ export class MovieListComponent implements OnInit {
 	
 	
 	selectedEntries: Set<MovieListEntry> = new Set()
-	toggleSelect(entry: MovieListEntry): void {
+	get hasSelectedEntries(){
+		return this.selectedEntries.size > 0
+	}
+	clearSelectedEntries(){
+		this.selectedEntries.clear()
+	}
+	toggleSelectEntry(entry: MovieListEntry): void {
 		this.selectedEntries.has(entry) ? this.selectedEntries.delete(entry) : this.selectedEntries.add(entry)
+	}
+	
+	removeSelectedEntries(){
+		this.selectedEntries.forEach(entry => this.removeEntry(entry))
+		this.selectedEntries.clear()
+	}
+	async removeEntry(entry: MovieListEntry){
+		const {entries} = this.movieList
+		entries.splice(entries.indexOf(entry), 1)
+		await this.api.movieListEntry.delete(entry)
+		
+		console.log(`Removed movie ${entry.movie.title} from list "${this.movieList.title}"`, entry)
+	}
+	
+	
+	drop(event: CdkDragDrop<MovieListEntry[]>){
+		if(event.previousContainer === event.container)
+			moveItemInArray(event.container.data, event.previousIndex, event.currentIndex)
+		else
+			transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex)
 	}
 	
 	
 	@ViewChild('titleInput') titleInput: ElementRef;
 	isEditing = false
-	
+
 	startEdit(){
 		this.isEditing = true
-		this.titleInput.nativeElement.focus()
+		requestAnimationFrame(() => this.titleInput.nativeElement.focus())
 	}
 	get canSaveEdit(){
 		return !!this.titleInput.nativeElement.value.trim()
@@ -87,25 +115,5 @@ export class MovieListComponent implements OnInit {
 	}
 	endEdit(){
 		this.isEditing = false
-	}
-	
-	clearSelectedEntries(){
-		this.selectedEntries.clear()
-	}
-	
-	get hasSelectedEntries(){
-		return this.selectedEntries.size > 0
-	}
-	removeSelectedEntries(){
-		this.selectedEntries.forEach(entry => this.removeEntry(entry))
-		this.selectedEntries.clear()
-	}
-	
-	async removeEntry(entry: MovieListEntry){
-		const {entries} = this.movieList
-		entries.splice(entries.indexOf(entry), 1)
-		await this.api.movieListEntry.delete(entry)
-		
-		console.log(`Removed movie ${entry.movie.title} from list "${this.movieList.title}"`, entry)
 	}
 }

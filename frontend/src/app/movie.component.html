@@ -1,7 +1,8 @@
 <div class="poster">
-    <img *ngIf="movie && movie.tmdbData" [src]="movie.tmdbData.poster | tmdbImage">
+    <img *ngIf="movie && movie.tmdbData" [src]="movie.tmdbData.poster_path | tmdbImage">
 </div>
 <div class="details">
     <h4>{{movie && movie.title || 'Loading...'}}</h4>
+    <span>{{movie && movie.tmdbData && movie.tmdbData.release_year}}</span>
     <nextflick-movie-watch *ngFor="let movieWatch of movieWatches" [movieWatch]="movieWatch"></nextflick-movie-watch>
 </div>
