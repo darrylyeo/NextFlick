@@ -34,7 +34,10 @@ namespace nextflick
 		}
 		
 		public object SearchMovie(string query) =>
-			Get($"search/movie?query={query}");
+			Get($"search/movie?query={query}&region=US&include_adult=false");
+		
+		public object SearchMovie(string query, int page) =>
+			Get($"search/movie?query={query}&page={page}");
 
 		public object GetMovie(int id) =>
 			Get($"movie/{id}");
