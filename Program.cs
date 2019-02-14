@@ -18,6 +18,7 @@ namespace nextflick
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseWebRoot("frontend/dist/nextflick")
+                .ConfigureLogging(logging => logging.SetMinimumLevel(LogLevel.Warning))
                 .Build()
                 .Run();
         }

@@ -9,8 +9,8 @@ using System.Data;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
-// using System.Runtime.Serialization;
-// using System.Json;
+using System.Runtime.Serialization;
+using System.Json;
 
 namespace nextflick.Controllers
 {
@@ -29,25 +29,39 @@ namespace nextflick.Controllers
 		// GET api/movie/{id}
 		[HttpGet("{id}")]
 		public object Get(int id) =>
-			Database.Query($"SELECT * FROM Movie WHERE id = {id}").FirstOrDefault();
+			Database.Query("SELECT * FROM Movie WHERE id = @id", new object[]{ id }).FirstOrDefault();
 		
 		// public object Get(int id)
 		// {
-		// 	var movie = Database.Query($"SELECT * FROM Movie WHERE id = {id}").FirstOrDefault();
+		// 	var movie = Database.Query("SELECT * FROM Movie WHERE id = @id", new object[]{ id }).FirstOrDefault();
 		// 	// Console.WriteLine((string)movie["tmdbData"]);
 		// 	JsonObject value = JsonValue.Parse((string)movie["tmdbData"]) as JsonObject;
 		// 	// Console.WriteLine((string)value);
 		// 	return value;
 		// 	// return movie;
 		// }
+		
+		// GET api/movie?tmdbID={tmdbID}
+		[HttpGet]
+		public object GetByTMDBID(int tmdbID) =>
+			Database.Query("SELECT * FROM Movie WHERE tmdbID = @tmdbID", new object[]{ tmdbID }).FirstOrDefault();
 
 		// POST api/movie
 		[HttpPost]
-		public void Post([FromBody]int tmdbID)
+		public object Create([FromBody]Movie movie)
 		{
-			var tmdbData = Api.GetMovie(tmdbID);
-			var title = tmdbData.GetType();//tmdbData["title"];
-			Database.Query($"INSERT INTO Movie (title, tmdbID, tmdbData) VALUES ('{title}', {tmdbID}, '{tmdbData}')");
+			int tmdbID = movie.tmdbID;
+			var tmdbData = JsonValue.Parse((string) Api.GetMovie(tmdbID)) as JsonObject;
+			var title = tmdbData["title"];
+			Database.Query("INSERT INTO Movie (title, tmdbID, tmdbData) VALUES (@title, @tmdbID, @tmdbData)", new object[]{ title, tmdbID, tmdbData });
+			return this.Get(movie.id)
 		}
 	}
+}
+
+public class Movie
+{
+    public int id { get; set; }
+    public string title { get; set; }
+    public int tmdbID { get; set; }
 }

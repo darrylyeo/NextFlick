@@ -25,30 +25,21 @@ namespace nextflick.Controllers
 		// GET api/movielist?user={user}
 		[HttpGet]
 		public object List(int user) => user == 0
-			? Database.Query($"SELECT * FROM MovieList")
-			: Database.Query($"SELECT * FROM MovieList WHERE userID = {user}");
+			? Database.Query("SELECT * FROM MovieList")
+			: Database.Query("SELECT * FROM MovieList WHERE userID = @user", new object[]{ user });
 		
 		// GET api/movielist/{id}
 		// GET api/movielist/{id}?user={user}
 		[HttpGet("{id}")]
 		public object Get(int id, int user = 0) => user == 0
-			? Database.Query($"SELECT * FROM MovieList WHERE id = {id}").FirstOrDefault()
-			: Database.Query($"SELECT * FROM MovieList WHERE id = {id}, userID = {user}").FirstOrDefault();
-			
-			// Database.Query(
-			// 	"SELECT * FROM MovieList ml WHERE userID = " + userID +
-			// 	"UNION" +
-			// 	"SELECT * FROM MovieListEntry WHERE movieListID = ml.id"
-			// );
-			
-			// Database.Query("SELECT * FROM MovieList WHERE userID = @userID;", new Dictionary<string, object>(){
-			//     {"userID", userID}
-			// });
+			? Database.Query("SELECT * FROM MovieList WHERE id = @id", new object[]{ id }).FirstOrDefault()
+			: Database.Query("SELECT * FROM MovieList WHERE id = @id, userID = @user", new object[]{ user }).FirstOrDefault();
 
 		// POST api/movielist { title, userID }
 		[HttpPost]
-		public void Post([FromBody]string title, [FromBody]int userID) =>
-			Database.Query($"INSERT INTO MovieList (title, userID) VALUES ('{title}', {userID})");
+		// public void Create([FromBody]string title, [FromBody]int userID) =>
+		public void Create([FromBody]MovieList movieList) =>
+			Database.Query("INSERT INTO MovieList (title, userID) VALUES (@title, @userID)", new object[]{ movieList.title, movieList.userID });
 		
 		// public HttpResponseMessage Post([FromBody]string title, [FromBody]int userID) =>
 		// 	Database.Query($"INSERT INTO MovieList (title, userID) VALUES ({title}, {userID})");
@@ -56,16 +47,27 @@ namespace nextflick.Controllers
 
 		// PUT api/movielist/{id} { title }
 		[HttpPut("{id}")]
-		public void Update(int id, [FromBody]string title)
-		{
-			Database.Query($"UPDATE MovieList SET title = '{title}' WHERE id = {id}");
-		}
+		public object Update(int id, [FromBody]MovieList movieList) =>
+			Database.Query("UPDATE MovieList SET title = @title WHERE id = @id", new object[]{ movieList.title, id });
+			// Database.Query("UPDATE MovieList SET title = @title WHERE id = @id", new Dictionary<string, object>(){
+			// 	{"title", movieList.title},
+			// 	{"id", id}
+			// });
 
 		// DELETE api/movielist/{id}
 		[HttpDelete("{id}")]
 		public void Delete(int id)
 		{
-			Database.Query($"DELETE FROM MovieList WHERE id = {id}");
+			Database.Query("DELETE FROM MovieList WHERE id = @id", new object[]{ id });
+			// Database.Query($"DELETE FROM MovieList WHERE id = {id} JOIN MovieListEntry WHERE MovieList.id = MovieListEntry.movieListID");
+			// DELETE FROM MovieList movieList WHERE id = 1 INNERJOIN MovieListEntry entry WHERE movieList.id = entry.movieListID
 		}
 	}
+}
+
+public class MovieList
+{
+    public int id { get; set; }
+    public string title { get; set; }
+    public int userID { get; set; }
 }

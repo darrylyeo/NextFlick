@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using MySql.Data.MySqlClient;
 
+using System.Text.RegularExpressions;
+
 namespace nextflick
 {
 	public class NextFlickMySQL : IDisposable
@@ -14,12 +16,12 @@ namespace nextflick
 		{
 			try
 			{
-				Console.WriteLine("Connecting to MySQL...");
+				// Console.WriteLine("Connecting to MySQL...");
 				
 				Connection = new MySqlConnection(connectionString);
 				Connection.Open();
 				
-				Console.WriteLine("Connected.");
+				// Console.WriteLine("Connected.");
 			}
 			catch (Exception ex)
 			{
@@ -27,27 +29,29 @@ namespace nextflick
 			}
 		}
 		
-		public List<Dictionary<string, object>> Query(string sql, Dictionary<string, object> queryParams = null)
+		// public List<Dictionary<string, object>> Query(string sql, Dictionary<string, object> paramValues = null)
+		public List<Dictionary<string, object>> Query(string sql, object[] paramValues = null)
 		{
 			var items = new List<Dictionary<string, object>>();
 			
 			Console.WriteLine(sql);
-			Console.WriteLine(queryParams);
+			if(paramValues != null) Console.WriteLine(string.Join(", ", paramValues));
 			try
 			{
 				// Substitute parameters
 				MySqlCommand command = new MySqlCommand(sql, Connection);
-				if(queryParams != null)
+				if(paramValues != null)
 				{
-					command.CommandType = CommandType.StoredProcedure;
-					command.Parameters.Clear();
-					foreach (KeyValuePair<string, object> kvp in queryParams){
-						command.Parameters.AddWithValue(/*"@" +*/ kvp.Key, kvp.Value);
-						Console.WriteLine("@" + kvp.Key);
-						Console.WriteLine(kvp.Value.ToString());
+					MatchCollection parameters = new Regex(@"(@\w+)").Matches(sql);
+					for(int i = 0; i < parameters.Count; i++)
+					{
+						command.Parameters.AddWithValue(parameters[i].Value, paramValues[i]);
 					}
+					
+					/*foreach (KeyValuePair<string, object> kvp in paramValues){
+						command.Parameters.AddWithValue("@" + kvp.Key, kvp.Value);
+					}*/
 				}
-				command.Prepare();
 				
 				// Execute
 				MySqlDataReader reader = command.ExecuteReader();

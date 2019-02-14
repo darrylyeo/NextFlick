@@ -32,23 +32,23 @@ namespace nextflick.Controllers
 
 		// POST api/user { name }
 		[HttpPost]
-		public void Post([FromBody]string name)
-		{
-			Database.Query($"INSERT INTO User (name) VALUES ('{name}')");
-		}
+		public object Create([FromBody]User user) =>
+			Database.Query("INSERT INTO User (name) VALUES (@name)", new object[]{ user.name });
 
 		// PUT api/user/{id} { title, userID }
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody]string name)
-		{
-			Database.Query($"UPDATE User SET name = '{name}' WHERE id = {id}");
-		}
+		public object Put(int id, [FromBody]User user) =>
+			Database.Query("UPDATE User SET name = @name WHERE id = @id", new object[]{ user.name, id });
 
 		// DELETE api/user/{id}
 		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-			Database.Query($"DELETE FROM User WHERE id = {id}");
-		}
+		public void Delete(int id) =>
+			Database.Query("DELETE FROM User WHERE id = @id", new object[]{ id });
 	}
+}
+
+public class User
+{
+    public int id { get; set; }
+    public string name { get; set; }
 }

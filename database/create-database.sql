@@ -72,7 +72,8 @@ CREATE TABLE `nextflick`.`MovieListEntry` (
 	KEY `fk_MovieList_MovieListEntry` (`movieListID`),
 	CONSTRAINT `Constraint_fk_MovieList_MovieListEntry`
 		FOREIGN KEY `fk_MovieList_MovieListEntry` (`movieListID`)
-		REFERENCES `nextflick`.`MovieList` (`id`),
+		REFERENCES `nextflick`.`MovieList` (`id`)
+		ON DELETE CASCADE,
 	
 	KEY `fk_Movie_MovieListEntry` (`movieID`),
 	CONSTRAINT `Constraint_fk_Movie_MovieListEntry`

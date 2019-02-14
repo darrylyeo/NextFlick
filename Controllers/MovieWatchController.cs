@@ -27,33 +27,27 @@ namespace nextflick.Controllers
 		// GET api/moviewatch?user={user}
 		[HttpGet]
 		public object List(int user) => user == 0
-			? Database.Query($"SELECT * FROM MovieWatch")
-			: Database.Query($"SELECT * FROM MovieWatch WHERE userID = {user}");
+			? Database.Query("SELECT * FROM MovieWatch")
+			: Database.Query("SELECT * FROM MovieWatch WHERE userID = @user", new object[]{ user });
 		
 		// GET api/moviewatch/{id}
 		[HttpGet("{id}")]
 		public object Get(int id) =>
-			Database.Query($"SELECT * FROM MovieWatch WHERE id = {id}").FirstOrDefault();
+			Database.Query("SELECT * FROM MovieWatch WHERE id = @id", new object[]{ id }).FirstOrDefault();
 		
 		// PUT api/moviewatch/{id} { title, userID }
 		[HttpPut("{id}")]
-		public void Update(int id, [FromBody]int rating)
-		{
-			Database.Query($"UPDATE MovieWatch SET rating = {rating} WHERE id = {id}");
-		}
+		public object Update(int id, [FromBody]int rating) =>
+			Database.Query("UPDATE MovieWatch SET rating = @rating WHERE id = @id", new object[]{ rating, id });
 
 		// POST api/moviewatch { userID, movieID }
 		[HttpPost]
-		public void Post([FromBody]int userID, [FromBody]int movieID)
-		{
-			Database.Query($"INSERT INTO MovieWatch (userID, movieID) VALUES ({userID}, {movieID})");
-		}
+		public object Create([FromBody]int userID, [FromBody]int movieID) =>
+			Database.Query("INSERT INTO MovieWatch (userID, movieID) VALUES (@userID, @movieID)", new object[]{ userID, movieID });
 		
 		// POST api/moviewatch { userID, movieID, rating }
 		[HttpPost]
-		public void Post([FromBody]int userID, [FromBody]int movieID, [FromBody]int rating)
-		{
-			Database.Query($"INSERT INTO MovieWatch (userID, movieID, rating) VALUES ({userID}, {movieID}, {rating})");
-		}
+		public object Create([FromBody]int userID, [FromBody]int movieID, [FromBody]int rating) =>
+			Database.Query("INSERT INTO MovieWatch (userID, movieID, rating) VALUES (@userID, @movieID, @rating)", new object[]{ userID, movieID, rating });
 	}
 }

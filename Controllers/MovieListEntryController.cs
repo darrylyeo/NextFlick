@@ -24,25 +24,40 @@ namespace nextflick.Controllers
 		// GET api/movielistentry?movieListID={movieListID}
 		[HttpGet()]
 		public object List(int movieListID) =>
-			Database.Query($"SELECT * FROM MovieListEntry WHERE movieListID = {movieListID}");
+			Database.Query("SELECT * FROM MovieListEntry WHERE movieListID = @movieListID", new object[]{ movieListID });
 		
 		// GET api/movielistentry/{id}
 		[HttpGet("{id}")]
 		public object Get(int id) =>
-			Database.Query($"SELECT * FROM MovieListEntry WHERE id = {id}").FirstOrDefault();
+			Database.Query("SELECT * FROM MovieListEntry WHERE id = @id", new object[]{ id }).FirstOrDefault();
 
-		// POST api/movielistentry { movieListID, userID }
+		// POST api/movielistentry { movieListID, movieID }
 		[HttpPost]
-		public void Post([FromBody]int movieListID, [FromBody]int userID)
-		{
-			Database.Query($"INSERT INTO MovieListEntry (movieListID, userID) VALUES ({movieListID}, {userID})");
-		}
+		public object Create([FromBody]MovieListEntry movieListEntry) =>
+			Database.Query("INSERT INTO MovieListEntry (movieListID, movieID) VALUES (@movieListID, @movieID)", new object[]{ movieListEntry.movieListID, movieListEntry.movieID });
+
+		// PUT api/movielistentry/{id} { movieListID }
+		// [HttpPut]
+		// public void Update(int id, [FromBody]int movieListID)
+		// {
+		// 	Database.Query($"UPDATE MovieList SET movieListID = movieListID WHERE id = {id})");
+		// }
+		[HttpPut]
+		public object Update(int id, [FromBody]MovieListEntry movieListEntry) =>
+			Database.Query("UPDATE MovieListEntry SET movieListID = @movieListID WHERE id = @id)", new object[]{ movieListEntry.movieListID, movieListEntry.id });
+			// return new HttpResponseMessage(HttpStMovieListEntryatusCode.NotModified);
+		    // return request.CreateResponse(HttpStatusCode.OK, user);
 
 		// DELETE api/movielistentry/{id}
 		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
-			Database.Query($"DELETE FROM MovieListEntry WHERE id = {id}");
-		}
+		public object Delete(int id) =>
+			Database.Query("DELETE FROM MovieListEntry WHERE id = @id", new object[]{ id });
 	}
+}
+
+public class MovieListEntry
+{
+    public int id { get; set; }
+    public int movieListID { get; set; }
+    public int movieID { get; set; }
 }
