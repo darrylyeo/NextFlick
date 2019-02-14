@@ -17,6 +17,7 @@ export class MovieListComponent implements OnInit {
 
 	ngOnInit() {
 		this.getData()
+		if(!this.movieList.title) this.startEdit()
 	}
 
 	async getData() {
@@ -135,7 +136,12 @@ export class MovieListComponent implements OnInit {
 		const newTitle = this.titleInput.nativeElement.value.trim()
 		if(newTitle){
 			this.movieList.title = newTitle
-			await this.api.movieList.update(this.movieList)
+			if(this.movieList.id){
+				await this.api.movieList.update(this.movieList)
+			}else{
+				this.movieList.userID = 1
+				this.movieList = await this.api.movieList.create(this.movieList)
+			}
 			this.endEdit()
 		}
 	}

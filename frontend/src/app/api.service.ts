@@ -33,7 +33,7 @@ export class NextFlickAPIService {
 			this.http.get<MovieList>(`/api/movielist/${id}?user=${userID}`).toPromise(),
 			
 		create: ({title, userID}) =>
-			this.http.post(`/api/movielist`, {title, userID}, {headers}).toPromise(),
+			this.http.post<MovieList>(`/api/movielist`, {title, userID}, {headers}).toPromise(),
 		
 		update: ({id, title, userID}) =>
 			this.http.put(`/api/movielist/${id}`, {title, userID}, {headers}).toPromise(),
@@ -61,8 +61,8 @@ export class NextFlickAPIService {
 	
 	movieWatch = {
 		list: ({userID, movieID}: {userID?: number, movieID?: number} = {}) =>
-			userID ? this.http.get<MovieWatch[]>(`/api/moviewatch?user=${userID}`).toPromise() :
 			movieID ? this.http.get<MovieWatch[]>(`/api/moviewatch?movie=${movieID}`).toPromise() :
+			userID ? this.http.get<MovieWatch[]>(`/api/moviewatch?user=${userID}`).toPromise() :
 			this.http.get<MovieWatch[]>(`/api/moviewatch`).toPromise(),
 		
 		get: ({id}) =>

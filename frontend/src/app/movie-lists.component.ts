@@ -26,14 +26,13 @@ export class MovieListsComponent implements OnInit {
 		return [
 			{
 				name: 'New List',
-				callback: () => {
-					const newMovieList = this.newMovieList = new MovieList()
-				}
+				callback: () => this.createList()
 			}
 		]
 	}
 
-	async create(movieList: MovieList) {
+	async createList() {
+		const movieList = new MovieList()
 		await this.api.movieList.create(movieList)
 		this.movieLists.push(movieList)
 		console.log(`Added movie list "${movieList.title}"`, movieList)

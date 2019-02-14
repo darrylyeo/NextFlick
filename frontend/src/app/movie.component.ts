@@ -23,6 +23,6 @@ export class MovieComponent implements OnInit {
 	async getData() {
 		const movieID = this.movie && this.movie.id || this.movieID
 		if(movieID)
-			this.movieWatches = await this.api.movieWatch.list({userID: 1, movieID})
+			this.movieWatches = await this.api.movieWatch.list({movieID})
 	}
 }

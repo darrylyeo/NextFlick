@@ -37,7 +37,7 @@ export class TMDBMovie {
 
 export class MovieList {
 	id: number
-	title: string
+	title: string = ''
 	userID: number
 	createdTimestamp: Date
 	modifiedTimestamp: Date

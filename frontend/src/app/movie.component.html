@@ -1,4 +1,4 @@
-<div class="poster">
+<div class="poster" (mouseover)="showMovieDetail.emit()">
     <img *ngIf="movie && movie.tmdbData" [src]="movie.tmdbData.poster_path | tmdbImage">
 </div>
 <div class="details">

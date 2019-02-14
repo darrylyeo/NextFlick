@@ -1,3 +1,7 @@
+.is-hidden {
+	transform: translateY(-100%);
+}
+
 .is-searching {
 	animation: Loading 0.5s infinite;
 }

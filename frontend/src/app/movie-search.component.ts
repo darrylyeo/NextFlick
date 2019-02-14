@@ -12,14 +12,7 @@ export class MovieSearchComponent {
 	
 	constructor(private api: NextFlickAPIService) { }
 	
-	get actions() {
-		return [{
-			name: 'New List',
-			callback: () => {
-				
-			}
-		}]
-	}
+	@Input() actions: Array<any>
 	
 	selectedEntries: Set<MovieListEntry> = new Set()
 	get hasSelectedEntries(){

@@ -8,7 +8,7 @@
 <div class="list" [class.is-searching]="isSearching"
     cdkDropList [cdkDropListOrientation]="'horizontal'" [cdkDropListData]="searchEntries">
     <nextflick-movie-list-entry *ngFor="let movieListEntry of searchEntries" [movieListEntry]="movieListEntry"
-        tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)" (click)="toggleSelectEntry(movieListEntry)"
+        tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)" (click)="toggleSelectEntry(movieListEntry)" (keyup.enter)="toggleSelectEntry(movieListEntry)"
         cdkDrag
         ></nextflick-movie-list-entry>
     <div class="placeholder" *ngIf="isSearching">Searching themoviedb.org...</div>
