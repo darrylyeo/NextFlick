@@ -40,14 +40,20 @@ namespace nextflick.Controllers
 		public object Update(int id, [FromBody]int rating) =>
 			Database.Query("UPDATE MovieWatch SET rating = @rating WHERE id = @id", new object[]{ rating, id });
 
-		// POST api/moviewatch { userID, movieID }
+		// POST api/moviewatch { userID, movieID, rating? }
 		[HttpPost]
-		public object Create([FromBody]int userID, [FromBody]int movieID) =>
-			Database.Query("INSERT INTO MovieWatch (userID, movieID) VALUES (@userID, @movieID)", new object[]{ userID, movieID });
-		
-		// POST api/moviewatch { userID, movieID, rating }
-		[HttpPost]
-		public object Create([FromBody]int userID, [FromBody]int movieID, [FromBody]int rating) =>
-			Database.Query("INSERT INTO MovieWatch (userID, movieID, rating) VALUES (@userID, @movieID, @rating)", new object[]{ userID, movieID, rating });
+		public object Create([FromBody]MovieWatchEntry movieWatchEntry)
+		{
+			Database.Query("INSERT INTO MovieWatch (userID, movieID, rating) VALUES (@userID, @movieID, @rating)", new object[]{ movieWatchEntry.userID, movieWatchEntry.movieID, movieWatchEntry.rating });
+			return Database.Query("SELECT * FROM MovieWatch WHERE id = LAST_INSERT_ID()");
+		}
 	}
+}
+
+public class MovieWatchEntry
+{
+    public int id { get; set; }
+    public int userID { get; set; }
+    public int movieID { get; set; }
+    public int rating { get; set; }
 }

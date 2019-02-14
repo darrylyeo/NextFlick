@@ -54,28 +54,27 @@ namespace nextflick
 				}
 				
 				// Execute
-				MySqlDataReader reader = command.ExecuteReader();
-				// command.ExecuteNonQuery();
-	
-				// Convert to serializable dictionaries
-				var fields = new List<string>();
-				for (var i = 0; i < reader.FieldCount; i++) 
-					fields.Add(reader.GetName(i));
-			
-				while (reader.Read()){ 
-					var item = new Dictionary<string, object>();
-					foreach (var field in fields) 
-						item.Add(field, reader[field]);
-					items.Add(item);
+				using(MySqlDataReader reader = command.ExecuteReader())
+				{
+					// Convert to serializable dictionaries
+					var fields = new List<string>();
+					for (var i = 0; i < reader.FieldCount; i++) 
+						fields.Add(reader.GetName(i));
+				
+					while (reader.Read()){ 
+						var item = new Dictionary<string, object>();
+						foreach (var field in fields) 
+							item.Add(field, reader[field]);
+						items.Add(item);
+					}
 				}
-				return items;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.ToString());
 				// return ex.ToString();
-				return items;
 			}
+			return items;
 		}
 
 		public void Dispose()

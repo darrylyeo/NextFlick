@@ -37,16 +37,9 @@ namespace nextflick.Controllers
 			Database.Query("INSERT INTO MovieListEntry (movieListID, movieID) VALUES (@movieListID, @movieID)", new object[]{ movieListEntry.movieListID, movieListEntry.movieID });
 
 		// PUT api/movielistentry/{id} { movieListID }
-		// [HttpPut]
-		// public void Update(int id, [FromBody]int movieListID)
-		// {
-		// 	Database.Query($"UPDATE MovieList SET movieListID = movieListID WHERE id = {id})");
-		// }
-		[HttpPut]
+		[HttpPut("{id}")]
 		public object Update(int id, [FromBody]MovieListEntry movieListEntry) =>
-			Database.Query("UPDATE MovieListEntry SET movieListID = @movieListID WHERE id = @id)", new object[]{ movieListEntry.movieListID, movieListEntry.id });
-			// return new HttpResponseMessage(HttpStMovieListEntryatusCode.NotModified);
-		    // return request.CreateResponse(HttpStatusCode.OK, user);
+			Database.Query("UPDATE MovieListEntry SET movieListID = @movieListID WHERE id = @id", new object[]{ movieListEntry.movieListID, id });
 
 		// DELETE api/movielistentry/{id}
 		[HttpDelete("{id}")]

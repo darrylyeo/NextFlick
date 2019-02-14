@@ -52,9 +52,9 @@ namespace nextflick.Controllers
 		{
 			int tmdbID = movie.tmdbID;
 			var tmdbData = JsonValue.Parse((string) Api.GetMovie(tmdbID)) as JsonObject;
-			var title = tmdbData["title"];
+			var title = (string) tmdbData["title"];
 			Database.Query("INSERT INTO Movie (title, tmdbID, tmdbData) VALUES (@title, @tmdbID, @tmdbData)", new object[]{ title, tmdbID, tmdbData });
-			return this.Get(movie.id)
+			return Database.Query("SELECT * FROM Movie WHERE id = LAST_INSERT_ID()");
 		}
 	}
 }

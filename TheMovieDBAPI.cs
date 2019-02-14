@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Net;
 
+using System.Runtime.Serialization;
+using System.Json;
+
 namespace nextflick
 {
 	public class TheMovieDBAPI : IDisposable
@@ -19,18 +22,18 @@ namespace nextflick
 		
 		private object Get(string apiPath)
 		{
-			try
-			{
-				var join = apiPath.Contains("?") ? "&" : "?";
-				var url = $"{api}/{apiPath}{join}api_key={apiKey}";
-				Console.WriteLine(url);
-				return webClient.DownloadString(url);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.ToString());
-				return ex;
-			}
+			var join = apiPath.Contains("?") ? "&" : "?";
+			var url = $"{api}/{apiPath}{join}api_key={apiKey}";
+			Console.WriteLine(url);
+			
+			var json = webClient.DownloadString(url);
+			
+			return json;
+			
+			// Console.WriteLine(json);
+			// JsonValue value = JsonValue.Parse(json);
+			// Console.WriteLine("Parsed");
+			// return value as JsonObject;
 		}
 		
 		public object SearchMovie(string query) =>
