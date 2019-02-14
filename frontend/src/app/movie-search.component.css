@@ -11,3 +11,12 @@
 header h3 {
 	flex: initial;
 }
+
+.list {
+	font-size: 0.85em;
+}
+/*@media (max-height: 900px) {
+	.list.cdk-drop-list-dragging, .list.cdk-drop-list-receiving {
+		font-size: 0.25em;
+	}
+}*/

@@ -83,15 +83,41 @@ export class MovieListComponent implements OnInit {
 		entries.splice(entries.indexOf(entry), 1)
 		await this.api.movieListEntry.delete(entry)
 		
-		console.log(`Removed movie ${entry.movie.title} from list "${this.movieList.title}"`, entry)
+		console.log(`Removed movie "${entry.movie.title}" from list "${this.movieList.title}"`, entry)
 	}
 	
 	
 	drop(event: CdkDragDrop<MovieListEntry[]>){
-		if(event.previousContainer === event.container)
+		const item = event.previousContainer.data[event.previousIndex] as MovieListEntry
+		if(event.previousContainer === event.container){
 			moveItemInArray(event.container.data, event.previousIndex, event.currentIndex)
-		else
+		}else{
 			transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex)
+			this.transferMovieEntry(item)
+		}
+	}
+	
+	async transferMovieEntry(movieListEntry: MovieListEntry){
+		if(movieListEntry.movieListID){
+			// Already came from a movie list
+			movieListEntry.movieListID = this.movieList.id
+			await this.api.movieListEntry.update(movieListEntry)
+			console.log(`Transferred movie "${movieListEntry.movie.title}" to list ${this.movieList.title}`, movieListEntry)
+		}else{
+			// Came from search
+			movieListEntry.movieListID = this.movieList.id
+			// Check if movie already exists in database
+			let movie = await this.api.movie.get(movieListEntry.movie)
+			if(!movie){
+				console.log(await this.api.movie.create(movieListEntry.movie))
+				console.log(`Added movie "${movieListEntry.movie.title}" to database`)
+				movie = await this.api.movie.get(movieListEntry.movie)
+			}
+			movieListEntry.movieID = movie.id
+			movieListEntry.movie = movie
+			await this.api.movieListEntry.create(movieListEntry)
+			console.log(`Added movie "${movieListEntry.movie.title}" to list ${this.movieList.title}`, movieListEntry)
+		}
 	}
 	
 	

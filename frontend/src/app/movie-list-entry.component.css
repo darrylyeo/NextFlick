@@ -1,0 +1,6 @@
+:host {
+    /*transform: translateZ(-1rem);*/
+}
+/*:host-context(.list:not(.cdk-drop-list-dragging)) {
+    transition: transform 0.3s;
+}*/

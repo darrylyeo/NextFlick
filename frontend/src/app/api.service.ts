@@ -51,6 +51,9 @@ export class NextFlickAPIService {
 			
 		create: ({movieListID, movieID}) =>
 			this.http.post(`/api/movielistentry`, {movieListID, movieID}, {headers}).toPromise(),
+			
+		update: ({id, movieListID}) =>
+			this.http.put(`/api/movielistentry/${id}`, {movieListID}, {headers}).toPromise(),
 		
 		delete: ({id}) =>
 			this.http.delete(`/api/movielistentry/${id}`, {headers}).toPromise(),
@@ -80,8 +83,10 @@ export class NextFlickAPIService {
 	}
 	
 	movie = {
-		get: ({id}) =>
-			this.http.get<Movie>(`/api/movie/${id}`).toPromise().then(async movie => {
+		get: ({id, tmdbID}: {id?: number, tmdbID?: number}) =>
+			this.http.get<Movie>(id ? `/api/movie/${id}` : `/api/movie?tmdbID=${tmdbID}`).toPromise().then(async movie => {
+				if(!movie) return undefined
+				
 				let {tmdbData, tmdbID} = movie
 				if(tmdbData){
 					if(typeof tmdbData === 'string') tmdbData = JSON.parse(tmdbData)

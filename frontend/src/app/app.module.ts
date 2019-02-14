@@ -11,6 +11,7 @@ import { MovieListComponent } from './movie-list.component'
 import { MovieSearchComponent } from './movie-search.component'
 import { MovieListEntryComponent } from './movie-list-entry.component'
 import { MovieComponent } from './movie.component'
+import { MovieDetailComponent } from './movie-detail.component'
 import { MovieWatchComponent } from './movie-watch.component'
 import { UserComponent } from './user.component'
 import { UsersComponent } from './users.component'
@@ -25,6 +26,7 @@ import { TmdbImagePipe } from './tmdb-image.pipe'
 		MovieSearchComponent,
 		MovieListEntryComponent,
 		MovieComponent,
+		MovieDetailComponent,
 		MovieWatchComponent,
 		UserComponent,
 		UsersComponent,

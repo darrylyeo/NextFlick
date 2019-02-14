@@ -11,6 +11,6 @@
         tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)" (click)="toggleSelectEntry(movieListEntry)"
         cdkDrag
         ></nextflick-movie-list-entry>
-    <div *ngIf="isSearching">Searching themoviedb.org...</div>
+    <div class="placeholder" *ngIf="isSearching">Searching themoviedb.org...</div>
     <div class="placeholder" *ngIf="searchInput.value && searchEntries.length === 0">Sorry! We couldn't find any movies with that name 😬</div>
 </div>

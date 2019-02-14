@@ -2,7 +2,7 @@
 	display: flex;
 	flex-direction: column;
 	
-	perspective: 1000px;
+	/*perspective: 50rem;*/
 	/*transform-style: preserve-3d;*/
 }
 /*:host > * + * {
@@ -62,24 +62,4 @@ h3 {
 .placeholder:not(:only-child) {
 	margin-left: 0.5em;
 	opacity: 0;
-}
-
-
-
-.cdk-drag-preview > * {
-    animation: Dragging 0.3s infinite;
-}
-.cdk-drag-placeholder {
-    opacity: 0.2;
-}
-.cdk-drag-animating {
-    transition: transform .3s cubic-bezier(0, 0, 0.2, 1), opacity 0.3s;
-}
-.cdk-drop-list-dragging > :not(.cdk-drag-placeholder) {
-	transition: transform .3s cubic-bezier(0, 0, 0.2, 1), opacity 0.3s;
-}
-@keyframes Dragging {
-	50% {
-		transform: scale(1.05);
-	}
 }

@@ -1,6 +1,6 @@
 <header>
     <h3 (click)="startEdit()">
-        <ng-container *ngIf="!isEditing">{{movieList.title}}</ng-container>
+        <ng-container *ngIf="!isEditing">{{movieList.title || '[Untitled Movie List]'}}</ng-container>
         <input type="text" #titleInput [hidden]="!isEditing" [value]="movieList.title" placeholder="My Awesome Movie List">
     </h3>
     <div class="actions">

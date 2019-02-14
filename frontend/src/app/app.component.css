@@ -1,3 +1,10 @@
+:host {
+    perspective: 50rem;
+    max-height: 100vh;
+    display: block;
+    overflow-y: auto;
+}
+
 header {
     display: flex;
     align-items: center;
