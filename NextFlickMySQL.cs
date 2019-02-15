@@ -34,8 +34,7 @@ namespace nextflick
 		{
 			var items = new List<Dictionary<string, object>>();
 			
-			Console.WriteLine(sql);
-			if(paramValues != null) Console.WriteLine(string.Join(", ", paramValues));
+			Console.WriteLine(DateTime.Now + " | " + sql + (paramValues == null ? "" : " | " + string.Join(", ", paramValues)));
 			try
 			{
 				// Substitute parameters
