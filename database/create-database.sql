@@ -1,4 +1,5 @@
 SET FOREIGN_KEY_CHECKS = 0;
+SET NAMES 'utf8';
 
 DROP DATABASE IF EXISTS `nextflick`;
 CREATE DATABASE `nextflick`;
@@ -40,7 +41,7 @@ CREATE TABLE `nextflick`.`MovieWatch` (
 	`id`                int NOT NULL AUTO_INCREMENT,
 	`userID`            int NOT NULL,
 	`movieID`           int NOT NULL,
-	`rating`            int NOT NULL,
+	`rating`            int,
 	`createdTimestamp`  timestamp NOT NULL
 		DEFAULT CURRENT_TIMESTAMP,
 	`modifiedTimestamp` timestamp NOT NULL,
