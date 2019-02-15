@@ -12,7 +12,36 @@ export class MovieSearchComponent {
 	
 	constructor(private api: NextFlickAPIService) { }
 	
-	@Input() actions: Array<any>
+	@Input() additionalActions: Array<any> = []
+	get actions(){
+		return (
+			this.isSelecting ? [
+				this.hasSelectedEntries && {
+					name: 'Deselect All',
+					callback: () => this.clearSelectedEntries()
+				},
+				{
+					name: 'Cancel',
+					callback: () => this.endSelect()
+				}
+			] : [
+				{
+					name: 'Select',
+					callback: () => this.startSelect()
+				}
+			]
+		).concat(this.additionalActions).filter(_ => _)
+	}
+	
+	isSelecting = false
+	
+	startSelect(){
+		this.isSelecting = true
+	}
+	endSelect(){
+		this.isSelecting = false
+		this.clearSelectedEntries()
+	}
 	
 	selectedEntries: Set<MovieListEntry> = new Set()
 	get hasSelectedEntries(){
@@ -26,14 +55,52 @@ export class MovieSearchComponent {
 	}
 	
 	isSearching = false
-	search(searchQuery: string){
+	search = debounce(function(searchQuery: string){
+		if(!searchQuery){
+			this.isSearching = false
+			return
+		}
+		
 		this.isSearching = true
 		this.api.movieDB.search(searchQuery).then(results => {
 			this.isSearching = false
 			console.log(results)
 			this.searchEntries = results['results'].map(tmdbMovie =>
-				({ movie: Movie.fromTMDB(tmdbMovie) }) as MovieListEntry
+				new MovieListEntry({ movie: Movie.fromTMDB(tmdbMovie) })
 			)
 		})
+	}, 500)
+}
+
+// https://gist.github.com/beaucharman/e46b8e4d03ef30480d7f4db5a78498ca
+function throttle(callback, wait, immediate = false) {
+	let timeout = null, initialCall = true
+	return function() {
+		const callNow = immediate && initialCall
+		const next = () => {
+			callback.apply(this, arguments)
+			timeout = null
+		}
+		if (callNow) { 
+			initialCall = false
+			next()
+		}
+		if (!timeout) {
+			timeout = setTimeout(next, wait)
+		}
+	}
+}
+
+// https://gist.github.com/beaucharman/1f93fdd7c72860736643d1ab274fee1a
+function debounce(callback, wait, immediate = false) {
+	let timeout = null
+	return function() {
+		const callNow = immediate && !timeout
+		const next = () => callback.apply(this, arguments)
+		clearTimeout(timeout)
+		timeout = setTimeout(next, wait)
+		if (callNow) {
+			next()
+		}
 	}
 }

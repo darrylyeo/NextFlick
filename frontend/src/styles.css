@@ -21,6 +21,7 @@
 	margin: 0;
 	transform-style: inherit;
 	transition: box-shadow 0.3s, text-shadow 0.3s, filter 0.3s;
+	scroll-behavior: smooth;
 }
 
 body {
@@ -38,6 +39,7 @@ body {
 img {
 	display: flex;
 	max-width: 100%;
+	max-height: 100%;
 }
 
 
@@ -104,15 +106,32 @@ input[type=text], input[type=search] {
 	font: inherit;
 	flex: 1;
 	max-width: 100%;
+	box-sizing: content-box;
 }
 h3 input[type=text], h3 input[type=search] {
 	margin: -0.25rem -0.5rem;
 	width: 100%;
 }
 
+input[type=range] {
+	width: 100%;
+}
 
 h4 {
 	font-weight: normal;
+}
+
+a {
+	color: #fff;
+}
+
+
+.comma-separated > * + :before {
+	content: ', ';
+}
+.dot-separated > * + :before {
+    content: '•';
+    padding: 0.5ch;
 }
 
 

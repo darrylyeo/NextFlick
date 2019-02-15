@@ -1,36 +1,36 @@
 :host {
-    perspective: 50rem;
-    max-height: 100vh;
-    display: block;
-    overflow-y: auto;
+	perspective: 50rem;
+	max-height: 100vh;
+	display: block;
+	overflow: hidden auto;
 }
 
 header {
-    display: flex;
-    align-items: center;
-    padding: 1em;
+	display: flex;
+	align-items: center;
+	padding: 1em;
 }
 header > * + * {
-    margin-left: 1em;
+	margin-left: 1em;
 }
 
 h1 {
-    display: flex;
-    align-items: center;
-    
-    --s: 0 0 2px var(--bg-color);
-    --s1: var(--s), var(--s), var(--s);
-    --s2: var(--s1), var(--s1), var(--s1);
-    --s3: var(--s2), var(--s2), var(--s2);
-    --s4: var(--s3), var(--s3), var(--s3);
-    text-shadow: var(--s4);
+	display: flex;
+	align-items: center;
+	
+	--s: 0 0 2px var(--bg-color);
+	--s1: var(--s), var(--s), var(--s);
+	--s2: var(--s1), var(--s1), var(--s1);
+	--s3: var(--s2), var(--s2), var(--s2);
+	--s4: var(--s3), var(--s3), var(--s3);
+	text-shadow: var(--s4);
 }
 h1 svg {
-    margin-right: -1.75em;
+	margin-right: -1.75em;
 }
 h1 path {
-    fill: var(--primary-color);
+	fill: var(--primary-color);
 }
 h1 span {
-    color: var(--primary-color);
+	color: var(--primary-color);
 }

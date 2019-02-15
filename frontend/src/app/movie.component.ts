@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { NextFlickAPIService } from './api.service'
 import { Movie, MovieWatch } from './model'
 
@@ -12,8 +12,6 @@ export class MovieComponent implements OnInit {
 	@Input() movieID: number
 	movieWatches: MovieWatch[]
 	
-	@Output() showMovieDetail = new EventEmitter()
-	
 	constructor(private api: NextFlickAPIService) { }
 
 	ngOnInit() {
@@ -22,7 +20,14 @@ export class MovieComponent implements OnInit {
 
 	async getData() {
 		const movieID = this.movie && this.movie.id || this.movieID
-		if(movieID)
-			this.movieWatches = await this.api.movieWatch.list({movieID})
+		// if(movieID)
+		// 	this.movieWatches = await this.api.movieWatch.list({movieID})
+	}
+	
+	get hasRating(){
+		// C# serializes MySQL null values as {"Data":null,"UnityType":2,"AssemblyName":""} for some reason; temporary workaround
+		return this.movie && this.movie.userMovieWatch &&
+			this.movie.userMovieWatch.rating !== undefined &&
+			typeof this.movie.userMovieWatch.rating !== 'object'
 	}
 }

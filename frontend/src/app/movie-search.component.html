@@ -1,16 +1,19 @@
 <header>
-    <h3>Search Movies:</h3>
-    <input type="search" #searchInput (change)="search(searchInput.value)" placeholder="Enter a movie title...">
-    <div class="actions">
-        <button *ngFor="let action of actions" (click)="action.callback($event)" (keyup.enter)="action.callback($event)">{{action.name}}</button>
-    </div>
+	<h3><label for="search-input">Search Movies: </label></h3>
+	<input type="search" #searchInput (input)="search(searchInput.value)" id="search-input" placeholder="Enter a movie title...">
+	<div class="actions">
+		<button *ngFor="let action of actions" (click)="action.callback($event)" (keyup.enter)="action.callback($event)">{{action.name}}</button>
+	</div>
 </header>
-<div class="list" [class.is-searching]="isSearching"
-    cdkDropList [cdkDropListOrientation]="'horizontal'" [cdkDropListData]="searchEntries">
-    <nextflick-movie-list-entry *ngFor="let movieListEntry of searchEntries" [movieListEntry]="movieListEntry"
-        tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)" (click)="toggleSelectEntry(movieListEntry)" (keyup.enter)="toggleSelectEntry(movieListEntry)"
-        cdkDrag
-        ></nextflick-movie-list-entry>
-    <div class="placeholder" *ngIf="isSearching">Searching themoviedb.org...</div>
-    <div class="placeholder" *ngIf="searchInput.value && searchEntries.length === 0">Sorry! We couldn't find any movies with that name 😬</div>
+<div class="list" [class.is-selecting]="isSelecting" [class.is-searching]="isSearching"
+	cdkDropList [cdkDropListOrientation]="'horizontal'" [cdkDropListData]="searchEntries">
+	<div class="placeholder" *ngIf="isSearching">Searching themoviedb.org...</div>
+	<nextflick-movie-list-entry #entryComponent *ngFor="let movieListEntry of searchEntries" [movieListEntry]="movieListEntry"
+		tabindex="0" [class.is-selected]="selectedEntries.has(movieListEntry)"
+		(click)="isSelecting ? toggleSelectEntry(movieListEntry) : entryComponent.showMovieDetail()"
+		(keyup.enter)="isSelecting ? toggleSelectEntry(movieListEntry) : entryComponent.showMovieDetail()"
+		(contextmenu)="startSelect(); toggleSelectEntry(movieListEntry); false"
+		cdkDrag
+		></nextflick-movie-list-entry>
+	<div class="placeholder" *ngIf="searchInput.value && !isSearching && searchEntries.length === 0">Sorry! We couldn't find any movies with that name 😬</div>
 </div>

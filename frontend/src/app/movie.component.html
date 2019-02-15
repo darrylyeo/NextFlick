@@ -1,8 +1,11 @@
-<div class="poster" (mouseover)="showMovieDetail.emit()">
-    <img *ngIf="movie && movie.tmdbData" [src]="movie.tmdbData.poster_path | tmdbImage">
+<div class="poster" [title]="movie && movie.tmdbData && movie.tmdbData.overview">
+	<img *ngIf="movie && movie.tmdbData" [src]="movie.tmdbData.poster_path | tmdbImage">
+	<ng-container *ngIf="movie && movie.userMovieWatch">
+		<div class="user-movie-watch-badge" title="You watched this"></div>
+		<nextflick-movie-rating *ngIf="hasRating" [rating]="movie.userMovieWatch.rating"></nextflick-movie-rating>
+	</ng-container>
 </div>
 <div class="details">
-    <h4>{{movie && movie.title || 'Loading...'}}</h4>
-    <span>{{movie && movie.tmdbData && movie.tmdbData.release_year}}</span>
-    <nextflick-movie-watch *ngFor="let movieWatch of movieWatches" [movieWatch]="movieWatch"></nextflick-movie-watch>
+	<h4>{{movie && (movie.title || movie.tmdbData && movie.tmdbData.title) || 'Loading...'}}<span class="year" *ngIf="movie && movie.tmdbData"> ({{movie.tmdbData.release_date.split('-')[0]}})</span></h4>
+	<!--<nextflick-movie-watch *ngFor="let movieWatch of movieWatches" [movieWatch]="movieWatch"></nextflick-movie-watch>-->
 </div>

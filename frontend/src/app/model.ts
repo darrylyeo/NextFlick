@@ -1,21 +1,30 @@
-export class Movie {
+class ModelClass {
+	constructor(properties){
+		Object.assign(this, properties)
+	}
+}
+
+export class Movie extends ModelClass {
 	id?: number
-	title: string
+	title: string = ''
 	tmdbID: number
 	tmdbData: TMDBMovie
 	createdTimestamp: Date
 	modifiedTimestamp: Date
 	
 	static fromTMDB(tmdbData: TMDBMovie): Movie {
-		return {
+		return new Movie({
 			title: tmdbData.title,
 			tmdbID: tmdbData.id,
 			tmdbData
-		} as Movie
+		})
 	}
+	
+	userMovieWatch: MovieWatch
+	watches: MovieWatch[]
 }
 
-export class TMDBMovie {
+export class TMDBMovie extends ModelClass {
 	vote_count: number
 	id: number
 	video: boolean
@@ -30,22 +39,19 @@ export class TMDBMovie {
 	adult: boolean
 	overview: string
 	release_date: string
-	get release_year(){
-		return this.release_date.match(/\d+/)[1]
-	}
 }
 
-export class MovieList {
+export class MovieList extends ModelClass {
 	id: number
 	title: string = ''
 	userID: number
 	createdTimestamp: Date
 	modifiedTimestamp: Date
 	
-	entries: MovieListEntry[]
+	entries: MovieListEntry[] = []
 }
 
-export class MovieListEntry {
+export class MovieListEntry extends ModelClass {
 	id: number
 	movieListID: number
 	movieID: number
@@ -56,11 +62,11 @@ export class MovieListEntry {
 	movie: Movie
 }
 
-export class MovieWatch {
+export class MovieWatch extends ModelClass {
 	id: number
 	userID: number
 	movieID: number
-	rating: number
+	rating?: number = undefined
 	createdTimestamp: Date
 	modifiedTimestamp: Date
 	
@@ -68,7 +74,7 @@ export class MovieWatch {
 	movie: Movie
 }
 
-export class User {
+export class User extends ModelClass {
 	id: number
 	name: string
 	createdTimestamp: Date

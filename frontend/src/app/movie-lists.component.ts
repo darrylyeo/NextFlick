@@ -12,6 +12,8 @@ export class MovieListsComponent implements OnInit {
 	movieLists: MovieList[]
 	newMovieList: MovieList
 	
+	isShowingMovieDetail = false
+	
 	constructor(private api: NextFlickAPIService) { }
 
 	ngOnInit() {
@@ -32,15 +34,16 @@ export class MovieListsComponent implements OnInit {
 	}
 
 	async createList() {
-		const movieList = new MovieList()
-		await this.api.movieList.create(movieList)
+		const movieList = new MovieList({userID: 1, entries: []})
+		console.log('movieList', movieList)
 		this.movieLists.push(movieList)
+		await this.api.movieList.create(movieList)
 		console.log(`Added movie list "${movieList.title}"`, movieList)
 	}
 
 	async removeList(movieList: MovieList) {
-		await this.api.movieList.delete(movieList)
 		this.movieLists.splice(this.movieLists.indexOf(movieList), 1)
+		await this.api.movieList.delete(movieList)
 		console.log(`Removed movie list "${movieList.title}"`, movieList)
 	}
 }

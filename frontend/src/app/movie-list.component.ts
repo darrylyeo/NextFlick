@@ -17,11 +17,15 @@ export class MovieListComponent implements OnInit {
 
 	ngOnInit() {
 		this.getData()
-		if(!this.movieList.title) this.startEdit()
+		
+		if(!this.movieList.title)
+			this.startEdit()
 	}
 
 	async getData() {
-		this.movieList.entries = await this.api.movieListEntry.list({movieListID: this.movieList.id})
+		this.movieList.entries = []
+		if(this.movieList.id)
+			this.movieList.entries = await this.api.movieListEntry.list({movieListID: this.movieList.id})
 	}
 	
 	get actions() {
@@ -34,13 +38,20 @@ export class MovieListComponent implements OnInit {
 				name: 'Cancel',
 				callback: () => this.endEdit()
 			}
-		] : this.hasSelectedEntries ? [
-			/*{
-				name: 'Move To',
-				callback: () => {
-					
-				}
-			},*/
+		] : this.isSelecting ? [
+			this.hasSelectedEntries && {
+				name: 'Remove Selected',
+				callback: () => this.removeSelectedEntries()
+			},
+			this.hasSelectedEntries && {
+				name: 'Deselect All',
+				callback: () => this.clearSelectedEntries()
+			},
+			{
+				name: 'Cancel',
+				callback: () => this.endSelect()
+			}
+		] /*this.hasSelectedEntries ? [
 			{
 				name: 'Remove Selected',
 				callback: () => this.removeSelectedEntries()
@@ -49,12 +60,10 @@ export class MovieListComponent implements OnInit {
 				name: 'Cancel',
 				callback: () => this.clearSelectedEntries()
 			}
-		] : [
-			{
+		]*/ : [
+			this.hasEntries && {
 				name: 'Select',
-				callback: () => {
-					
-				}
+				callback: () => this.startSelect()
 			},
 			{
 				name: 'Delete List',
@@ -63,6 +72,21 @@ export class MovieListComponent implements OnInit {
 		]).filter(_ => _)
 	}
 	
+	
+	get hasEntries(){
+		return this.movieList.entries.length > 0
+	}
+	
+	
+	isSelecting = false
+	
+	startSelect(){
+		this.isSelecting = true
+	}
+	endSelect(){
+		this.isSelecting = false
+		this.clearSelectedEntries()
+	}
 	
 	selectedEntries: Set<MovieListEntry> = new Set()
 	get hasSelectedEntries(){
@@ -78,6 +102,8 @@ export class MovieListComponent implements OnInit {
 	removeSelectedEntries(){
 		this.selectedEntries.forEach(entry => this.removeEntry(entry))
 		this.selectedEntries.clear()
+		if(!this.hasEntries)
+			this.endSelect()
 	}
 	async removeEntry(entry: MovieListEntry){
 		const {entries} = this.movieList
@@ -88,8 +114,38 @@ export class MovieListComponent implements OnInit {
 	}
 	
 	
+	@ViewChild('titleInput') titleInput: ElementRef
+	isEditing = false
+	newTitle = ''
+
+	startEdit(){
+		this.isEditing = true
+		this.newTitle = this.movieList.title
+		requestAnimationFrame(() => this.titleInput.nativeElement.focus())
+	}
+	get canSaveEdit(){
+		return this.newTitle.trim().length
+	}
+	async saveEdit(){
+		const newTitle = this.newTitle.trim()
+		if(newTitle){
+			this.endEdit()
+			this.movieList.title = newTitle
+			if(this.movieList.id){
+				await this.api.movieList.update(this.movieList)
+			}else{
+				// this.movieList.userID = 1
+				Object.assign(this.movieList, await this.api.movieList.create(this.movieList))
+			}
+		}
+	}
+	endEdit(){
+		this.isEditing = false
+	}
+	
+	
 	drop(event: CdkDragDrop<MovieListEntry[]>){
-		const item = event.previousContainer.data[event.previousIndex] as MovieListEntry
+		const item = new MovieListEntry(event.previousContainer.data[event.previousIndex])
 		if(event.previousContainer === event.container){
 			moveItemInArray(event.container.data, event.previousIndex, event.currentIndex)
 		}else{
@@ -119,33 +175,5 @@ export class MovieListComponent implements OnInit {
 			await this.api.movieListEntry.create(movieListEntry)
 			console.log(`Added movie "${movieListEntry.movie.title}" to list ${this.movieList.title}`, movieListEntry)
 		}
-	}
-	
-	
-	@ViewChild('titleInput') titleInput: ElementRef;
-	isEditing = false
-
-	startEdit(){
-		this.isEditing = true
-		requestAnimationFrame(() => this.titleInput.nativeElement.focus())
-	}
-	get canSaveEdit(){
-		return !!this.titleInput.nativeElement.value.trim()
-	}
-	async saveEdit(){
-		const newTitle = this.titleInput.nativeElement.value.trim()
-		if(newTitle){
-			this.movieList.title = newTitle
-			if(this.movieList.id){
-				await this.api.movieList.update(this.movieList)
-			}else{
-				this.movieList.userID = 1
-				this.movieList = await this.api.movieList.create(this.movieList)
-			}
-			this.endEdit()
-		}
-	}
-	endEdit(){
-		this.isEditing = false
 	}
 }

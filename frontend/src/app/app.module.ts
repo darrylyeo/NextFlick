@@ -13,6 +13,7 @@ import { MovieListEntryComponent } from './movie-list-entry.component'
 import { MovieComponent } from './movie.component'
 import { MovieDetailComponent } from './movie-detail.component'
 import { MovieWatchComponent } from './movie-watch.component'
+import { MovieRatingComponent } from './movie-rating.component'
 import { UserComponent } from './user.component'
 import { UsersComponent } from './users.component'
 
@@ -28,6 +29,7 @@ import { TmdbImagePipe } from './tmdb-image.pipe'
 		MovieComponent,
 		MovieDetailComponent,
 		MovieWatchComponent,
+		MovieRatingComponent,
 		UserComponent,
 		UsersComponent,
 		TmdbImagePipe

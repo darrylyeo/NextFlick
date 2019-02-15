@@ -21,10 +21,12 @@ h3 {
 	display: flex;
 	flex: 1;
 }
+h3 input {
+	margin-right: 0;
+}
 .actions {
 	display: flex;
 	align-items: center;
-	margin-left: auto;
 }
 
 .list {
@@ -33,13 +35,10 @@ h3 {
 	
 	margin-top: -1em;
 	padding: 1em;
-	transition: font-size 0.3s;
+	transition: font-size 0.3s, transform 0.3s;
 }
 .list.cdk-drop-list {
 	min-height: 16em;
-}
-.list:empty {
-	font-size: 0;
 }
 .list > * + * {
 	margin-left: 0.75em;
@@ -50,16 +49,20 @@ h3 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	opacity: 0.5;
+	opacity: 0.6;
 	background-color: rgba(0, 0, 0, 0.3);
 	border-radius: 4px;
 	order: 1;
 	flex: 1;
 	align-self: center;
 	padding: 1em;
+	animation: ScaleIn 0.3s;
 	transition: flex 0.3s, opacity 0.3s;
 }
 .placeholder:not(:only-child) {
 	margin-left: 0.5em;
 	opacity: 0;
+}
+@keyframes ScaleIn {
+	from { transform: scale(0) }
 }

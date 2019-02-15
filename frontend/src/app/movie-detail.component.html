@@ -1,8 +1,30 @@
-<div class="poster">
-    <img *ngIf="movie && movie.tmdbData" [src]="movie.tmdbData.poster_path | tmdbImage">
-</div>
-<div class="details">
-    <h4>{{movie && movie.title || 'Loading...'}}</h4>
-    <span>{{movie && movie.tmdbData && movie.tmdbData.release_year}}</span>
-    <nextflick-movie-watch *ngFor="let movieWatch of movieWatches" [movieWatch]="movieWatch"></nextflick-movie-watch>
-</div>
+<ng-container *ngIf="movie">
+	<div class="poster">
+		<img *ngIf="movie.tmdbData" [src]="movie.tmdbData.poster_path | tmdbImage">
+	</div>
+	<div class="details">
+		<header>
+			<h3>
+				<a [href]="movie.tmdbData.homepage" *ngIf="movie.tmdbData.homepage">{{movie.tmdbData ? movie.tmdbData.title : movie.title}}</a>
+				<ng-container *ngIf="!movie.tmdbData.homepage">{{movie.tmdbData ? movie.tmdbData.title : movie.title}}</ng-container>
+			</h3>
+			<span *ngIf="movie.tmdbData" class="dot-separated">
+				<span *ngIf="movie.tmdbData.release_date">{{movie.tmdbData.release_date.split('-')[0]}}</span>
+				<!--<span *ngIf="movie.tmdbData.homepage"><a [href]="movie.tmdbData.homepage">Website</a></span>-->
+				<span *ngIf="movie.tmdbData.genres && movie.tmdbData.genres.length" class="genres comma-separated"><span *ngFor="let genre of movie.tmdbData.genres">{{genre.name}}</span></span>
+			</span>
+		</header>
+		<ng-container *ngIf="movie.tmdbData">
+			<p class="overview"><span class="tagline" *ngIf="movie.tmdbData.tagline">{{movie.tmdbData.tagline}}</span> {{movie.tmdbData.overview}}</p>
+		</ng-container>
+	</div>
+	<!--<div class="watches">
+		<nextflick-movie-watch *ngFor="let movieWatch of movieWatches" [movieWatch]="movieWatch"></nextflick-movie-watch>
+	</div>-->
+	<div class="actions-column">
+		<nextflick-movie-watch *ngIf="movie.userMovieWatch" [movieWatch]="movie.userMovieWatch"></nextflick-movie-watch>
+		<div class="actions">
+			<button *ngFor="let action of actions" (click)="action.callback($event)" (keypress.enter)="action.callback($event)">{{action.name}}</button>
+		</div>
+	</div>
+</ng-container>

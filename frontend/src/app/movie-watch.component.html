@@ -1,5 +1,10 @@
-<ng-container *ngIf="movieWatch && movieWatch.user">
-    {{movieWatch.user.name}}
-    <span class="rating" *ngIf="movieWatch.rating">{{movieWatch.rating}}</span>
-    <!--{{movieWatch.user.name}} watched this<ng-container *ngIf="movieWatch.rating"> and rated it {{movieWatch.rating}}</ng-container>-->
-</ng-container>
+<nextflick-movie-rating *ngIf="hasRating || isRating" [rating]="isRating ? newRating : movieWatch.rating" class="show-description"></nextflick-movie-rating>
+<input type="range" #ratingInput [value]="newRating" [hidden]="!isRating" min="-5" max="5" (input)="newRating = ratingInput.value">
+<div class="actions">
+	<button *ngFor="let action of actions" (click)="action.callback($event)" (keypress.enter)="action.callback($event)">{{action.name}}</button>
+</div>
+
+<!--<ng-container *ngIf="movieWatch && movieWatch.user">
+	{{movieWatch.user.name}}
+	{{movieWatch.user.name}} watched this<ng-container *ngIf="movieWatch.rating"> and rated it {{movieWatch.rating}}</ng-container>
+</ng-container>-->

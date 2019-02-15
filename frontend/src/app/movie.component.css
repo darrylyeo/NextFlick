@@ -1,18 +1,42 @@
 :host {
+	--x: 0;
+	--y: 0;
+	--z: 0;
+	--scale: 1;
+	
 	--poster-width: calc(9em);
 	--poster-height: calc(1.5 * var(--poster-width));
+	--poster-z: 0px;
+	--poster-shadow: 0 2px 1rem rgba(0, 0, 0, 0.02);
+	
 	width: var(--poster-width);
 	
 	display: flex;
 	flex-direction: column;
 	
 	position: relative;
+	transform: scale(var(--scale)) translate3d(var(--x), var(--y), var(--z));
 	transition: transform 0.3s cubic-bezier(0, 1, 0.15, 2);
 }
-:host-context(.is-selected) {
+:host-context(nextflick-movie-list .is-selecting) {
+	--z: -0.5rem;
+}
+:host-context(nextflick-movie-list-entry:active) {
+	--scale: 0.95;
+	transition-duration: 0.3s;
+	transition-timing-function: cubic-bezier(0.1, 1, 0.15, 1);
+}
+:host-context(nextflick-movie-list-entry:hover),
+:host-context(nextflick-movie-list-entry:focus) {
+	--poster-shadow: 0 2px 1em rgba(0, 0, 0, 0.3);
+	--poster-scale: 1.02;
+}
+:host-context(nextflick-movie-list-entry.is-selected) {
 	filter: brightness(120%);
-	transform: scale(1.02) translate3d(0, -0.3em, 5px);
-	transform: translate3d(0, -0.3em, 1rem);
+	--scale: 1.02;
+	--y: -0.3em;
+	--z: 0;
+	--poster-z: 0;
 }
 /*@media (min-width: 1200px) {
 	:host {
@@ -22,17 +46,13 @@
 
 .poster {
 	background-color: rgba(255, 255, 255, 0.25);
-	box-shadow: 0 2px 1rem rgba(0, 0, 0, 0.02);
+	box-shadow: var(--poster-shadow);
 	border-radius: 4px;
 	overflow: hidden;
 	position: relative;
 	height: var(--poster-height);
-	transition: transform 0.3s cubic-bezier(0, 1, 0.15, 2);
-}
-:host-context(nextflick-movie-list-entry:hover) .poster,
-:host-context(nextflick-movie-list-entry:focus) .poster {
-	box-shadow: 0 2px 1em rgba(0, 0, 0, 0.3);
-	transform: scale(1.02);
+	transform: scale(var(--poster-scale)) translateZ(var(--poster-z));
+	transition: transform 0.3s cubic-bezier(0, 1, 0.15, 2.5);
 }
 /*:host-context(nextflick-movie-list-entry:focus) .poster {
 	border: 2px solid var(--primary-color);
@@ -54,7 +74,6 @@
 	position: absolute;
 	right: 0.5em;
 	bottom: 0.5em;
-	transform: translateZ(-1rem);
 	box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.2);
 }
 
@@ -70,10 +89,44 @@
 .details {
 	margin-top: 0.5em;
 }
-.details > * {
+/*.details > * {
 	display: inline;
+}*/
+.details h4 {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	max-height: 2.4em;
+}
+.details .year {
+	font-size: 0.85em;
 }
 
-nextflick-movie-watch {
-	font-size: 0.7em;
+.user-movie-watch-badge, nextflick-movie-rating {
+	box-shadow: 0 2px 0.5rem rgba(0, 0, 0, 0.2);
+	position: absolute;
 }
+.user-movie-watch-badge {
+	/* https://www.iconfinder.com/icons/103177/eye_see_view_watch_icon */
+	/* <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4C4.063 4-.012 12-.012 12S3.063 20 12 20c8.093 0 12.011-7.969 12.011-7.969S20.062 4 12 4zm.018 13c-2.902 0-5-2.188-5-5 0-2.813 2.098-5 5-5s5 2.187 5 5c0 2.812-2.098 5-5 5zm0-8c-1.658.003-3 1.393-3 3 0 1.606 1.342 3 3 3s3-1.395 3-3c0-1.608-1.342-3.003-3-3z" fill-rule="evenodd"/></svg> */
+	background: url("data:image/svg+xml,%3Csvg fill='#00' height='24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 4C4.063 4-.012 12-.012 12S3.063 20 12 20c8.093 0 12.011-7.969 12.011-7.969S20.062 4 12 4zm.018 13c-2.902 0-5-2.188-5-5 0-2.813 2.098-5 5-5s5 2.187 5 5c0 2.812-2.098 5-5 5zm0-8c-1.658.003-3 1.393-3 3 0 1.606 1.342 3 3 3s3-1.395 3-3c0-1.608-1.342-3.003-3-3z' fill-rule='evenodd'/%3E%3C/svg%3E") center/72% no-repeat;
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 50%;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 1.3em;
+	height: 1.3em;
+	left: 0.25em;
+	top: 0.25em;
+}
+nextflick-movie-rating {
+	--movie-rating-font-size: 0.85em;
+	right: 0.25em;
+	top: 0.25em;
+}
+
+/*nextflick-movie-watch {
+	font-size: 0.7em;
+}*/

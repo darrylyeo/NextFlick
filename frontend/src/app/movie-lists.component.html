@@ -1,7 +1,7 @@
-<div (showMovieDetail)="movieDetail.onShowMovieDetail($event.target.movie)"
-    cdkDropListGroup>
-    <nextflick-movie-search [actions]="actions"></nextflick-movie-search>
-    <nextflick-movie-list *ngFor="let movieList of movieLists" [movieList]="movieList" (removeList)="removeList(movieList)"></nextflick-movie-list>
-    <nextflick-movie-list *ngIf="newMovieList" [movieList]="newMovieList"></nextflick-movie-list>
-    <nextflick-movie-detail #movieDetail></nextflick-movie-detail>
+<div (showMovieDetail)="movieDetail.onShowMovieDetail($event.detail); isShowingMovieDetail = true"
+	cdkDropListGroup>
+	<nextflick-movie-search [additionalActions]="actions"></nextflick-movie-search>
+	<nextflick-movie-list *ngFor="let movieList of movieLists" [movieList]="movieList" (removeList)="removeList(movieList)"></nextflick-movie-list>
+	<nextflick-movie-list *ngIf="newMovieList" [movieList]="newMovieList"></nextflick-movie-list>
+	<nextflick-movie-detail #movieDetail [class.is-hidden]="!isShowingMovieDetail" (hideMovieDetail)="isShowingMovieDetail = false"></nextflick-movie-detail>
 </div>
