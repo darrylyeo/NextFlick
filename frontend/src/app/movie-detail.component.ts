@@ -52,7 +52,7 @@ export class MovieDetailComponent {
 				callback: () => this.setWatched()
 			},
 			{
-				name: 'Hide',
+				name: 'Close',
 				callback: () => this.hideMovieDetail.emit()
 			}
 		]

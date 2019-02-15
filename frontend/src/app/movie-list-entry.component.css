@@ -1,16 +1,15 @@
 :host {
-	/*transform: translateZ(-1rem);*/
+	transform-style: preserve-3d;
 }
-/*:host-context(.list:not(.cdk-drop-list-dragging)) {
-	transition: transform 0.3s;
-}*/
-
-
 
 :host-context(nextflick-movie-list .is-selecting) {
-	animation: Shake 0.3s linear infinite alternate;
+	animation: Shake 0.15s linear infinite alternate;
 }
 @keyframes Shake {
 	from { transform: rotate(-0.5deg) }
 	to { transform: rotate(0.5deg) }
 }
+
+/*:host-context(.list:not(.cdk-drop-list-dragging)) {
+	transition: transform 0.3s;
+}*/

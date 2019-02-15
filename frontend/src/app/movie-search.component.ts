@@ -21,7 +21,7 @@ export class MovieSearchComponent {
 					callback: () => this.clearSelectedEntries()
 				},
 				{
-					name: 'Cancel',
+					name: 'Done',
 					callback: () => this.endSelect()
 				}
 			] : [

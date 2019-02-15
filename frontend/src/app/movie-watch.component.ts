@@ -63,7 +63,7 @@ export class MovieWatchComponent {
 			}
 		] : [
 			{
-				name: this.hasRating ? 'Edit Rating' : 'Rate This',
+				name: this.hasRating ? 'Edit Rating' : 'Rate This Movie',
 				callback: () => this.startRating()
 			}
 		]

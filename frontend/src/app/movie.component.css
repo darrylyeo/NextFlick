@@ -19,7 +19,7 @@
 	transition: transform 0.3s cubic-bezier(0, 1, 0.15, 2);
 }
 :host-context(nextflick-movie-list .is-selecting) {
-	--z: -0.5rem;
+	--z: -2rem;
 }
 :host-context(nextflick-movie-list-entry:active) {
 	--scale: 0.95;
@@ -37,6 +37,7 @@
 	--y: -0.3em;
 	--z: 0;
 	--poster-z: 0;
+	--poster-shadow: 0 2px 1rem rgba(0, 0, 0, 0.02), 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
 }
 /*@media (min-width: 1200px) {
 	:host {

@@ -48,7 +48,7 @@ export class MovieListComponent implements OnInit {
 				callback: () => this.clearSelectedEntries()
 			},
 			{
-				name: 'Cancel',
+				name: 'Done',
 				callback: () => this.endSelect()
 			}
 		] /*this.hasSelectedEntries ? [

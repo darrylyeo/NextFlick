@@ -1,11 +1,12 @@
 <ng-container *ngIf="movie">
+	<img *ngIf="movie.tmdbData.backdrop_path" [src]="movie.tmdbData.backdrop_path | tmdbImage" class="backdrop">
 	<div class="poster">
-		<img *ngIf="movie.tmdbData" [src]="movie.tmdbData.poster_path | tmdbImage">
+		<img *ngIf="movie.tmdbData" [src]="movie.tmdbData.poster_path | tmdbImage: 500">
 	</div>
 	<div class="details">
 		<header>
 			<h3>
-				<a [href]="movie.tmdbData.homepage" *ngIf="movie.tmdbData.homepage">{{movie.tmdbData ? movie.tmdbData.title : movie.title}}</a>
+				<a [href]="movie.tmdbData.homepage" target="_blank" *ngIf="movie.tmdbData.homepage">{{movie.tmdbData ? movie.tmdbData.title : movie.title}}</a>
 				<ng-container *ngIf="!movie.tmdbData.homepage">{{movie.tmdbData ? movie.tmdbData.title : movie.title}}</ng-container>
 			</h3>
 			<span *ngIf="movie.tmdbData" class="dot-separated">
